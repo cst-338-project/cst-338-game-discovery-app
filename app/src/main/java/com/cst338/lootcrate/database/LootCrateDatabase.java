@@ -31,8 +31,7 @@ public abstract class LootCrateDatabase extends RoomDatabase {
                                     LootCrateDatabase.class,
                                     DATABASE_NAME
                             )
-                            .fallbackToDestructiveMigration() // deprecated?
-                            .addCallback(addDefaultValues)
+                            .addCallback(addDefaultUserValues)
                             .build();
                 }
             }
@@ -40,7 +39,7 @@ public abstract class LootCrateDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    private static final RoomDatabase.Callback addDefaultValues = new RoomDatabase.Callback() {
+    private static final RoomDatabase.Callback addDefaultUserValues = new RoomDatabase.Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
