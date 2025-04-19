@@ -3,6 +3,8 @@ package com.cst338.lootcrate.database.entities;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.cst338.lootcrate.database.LootCrateDatabase;
+
 import java.util.Objects;
 
 @Entity(tableName = LootCrateDatabase.USER_TABLE)
