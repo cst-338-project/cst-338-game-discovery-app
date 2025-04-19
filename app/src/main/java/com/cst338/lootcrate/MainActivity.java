@@ -1,6 +1,7 @@
 package com.cst338.lootcrate;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,5 +20,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         repository = LootCrateRepository.getRepository(getApplication());
+
+        // Force query to see usertable in the App Inspector
+        repository.getUserByUserName("admin2").observe(this, user -> {
+            if (user != null) {
+                Log.d("MainActivity", "Admin user found: " + user.toString());
+            } else {
+                Log.d("MainActivity", "Admin user not found");
+            }
+        });
+
     }
 }

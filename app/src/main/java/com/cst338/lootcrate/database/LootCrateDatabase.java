@@ -44,7 +44,6 @@ public abstract class LootCrateDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            Log.i("LOOTCRATE", "Adding Default Users");
 
             databaseWriteExecutor.execute(() -> {
                 UserDAO dao = INSTANCE.userDAO();
