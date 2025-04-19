@@ -31,6 +31,7 @@ public abstract class LootCrateDatabase extends RoomDatabase {
                                     LootCrateDatabase.class,
                                     DATABASE_NAME
                             )
+                            .fallbackToDestructiveMigration()
                             .addCallback(addDefaultUserValues)
                             .build();
                 }
@@ -43,6 +44,8 @@ public abstract class LootCrateDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
+            Log.i("LOOTCRATE", "Adding Default Users");
+
             databaseWriteExecutor.execute(() -> {
                 UserDAO dao = INSTANCE.userDAO();
                 dao.deleteAll();
