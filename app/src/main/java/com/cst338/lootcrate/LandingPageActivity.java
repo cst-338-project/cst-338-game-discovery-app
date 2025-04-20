@@ -5,14 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
 
 import com.cst338.lootcrate.database.LootCrateRepository;
 import com.cst338.lootcrate.database.entities.User;
@@ -32,6 +28,31 @@ public class LandingPageActivity extends AppCompatActivity {
 
         setContentView(binding.getRoot());
 
+        profileButton();
+        likeButton();
+        dislikeButton();
+    }
+
+    private void dislikeButton() {
+        binding.dislikeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Wire dislike button
+                Toast.makeText(LandingPageActivity.this, "Disliked", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void likeButton() {
+        binding.likeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Wire like button
+                Toast.makeText(LandingPageActivity.this, "Liked", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void profileButton() {
         if (user != null) {
             if (user.isAdmin()) {
                 binding.profileButton.setText("admin");
@@ -48,7 +69,6 @@ public class LandingPageActivity extends AppCompatActivity {
             }
         });
     }
-
     static Intent landingIntentFactory(Context context) {
         return new Intent(context, LandingPageActivity.class);
     }
