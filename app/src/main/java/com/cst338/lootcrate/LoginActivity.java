@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 
 import com.cst338.lootcrate.database.LootCrateRepository;
 import com.cst338.lootcrate.database.entities.User;
@@ -32,18 +33,47 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         repository = LootCrateRepository.getRepository(getApplication());
+
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getInformationFromDisplay();
-                insertUser();
-                Intent intent = mainActivityIntentFactory(getApplicationContext(), 0);
-                startActivity(intent);
+//                getInformationFromDisplay();
+//                insertUser();
+//                Intent intent = mainActivityIntentFactory(getApplicationContext(), 0);
+//                startActivity(intent);
+                verifyUser();
             }
         });
 
     }
 
+    private void verifyUser() {
+        String username = binding.usernameEditText.getText().toString();
+
+        if (username.isEmpty()) {
+            toastMaker("Username may not be blank.");
+            return;
+        }
+        LiveData<User> userObserver = repository.getUserByUserName(username);
+        userObserver.observe(this, user -> {
+            if (user != null) {
+                String password = binding.passwordEditText.getText().toString();
+                if (password.equals(user.getPassword())) {
+                    startActivity(MainActivity.mainActivityIntentFactory(getApplicationContext(), user.getId()));
+                } else {
+                    toastMaker("Invalid password");
+                    binding.passwordEditText.setSelection(0);
+                }
+            } else {
+                toastMaker(String.format("%s is not a valid username.", username));
+                binding.usernameEditText.setSelection(0);
+            }
+        });
+    }
+
+    /**
+     * Should be moved to sign up instead.
+     *
     private void insertUser() {
         if (username.isEmpty() || password.isEmpty()){
             Toast.makeText(getApplicationContext(), "Please enter a username and password.", Toast.LENGTH_SHORT).show();
@@ -52,13 +82,21 @@ public class LoginActivity extends AppCompatActivity {
         User user = new User(password, username);
         repository.insertUser(user);
     }
+     */
 
+    /**
+     * Deprecated
     private void getInformationFromDisplay() {
         username = binding.usernameEditText.getText().toString();
         password = binding.passwordEditText.getText().toString();
     }
+     */
 
     static Intent loginIntentFactory(Context context){
         return new Intent(context, LoginActivity.class);
+    }
+
+    private void toastMaker(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
