@@ -1,7 +1,7 @@
 package com.cst338.lootcrate;
 
 
-import static com.cst338.lootcrate.MainActivity.mainActivityIntentFactory;
+//import static com.cst338.lootcrate.MainActivity.mainActivityIntentFactory;
 
 import android.content.Context;
 import android.content.Intent;
@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
             if (user != null) {
                 String password = binding.passwordEditText.getText().toString();
                 if (password.equals(user.getPassword())) {
-                    startActivity(MainActivity.mainActivityIntentFactory(getApplicationContext(), user.getId()));
+                    startActivity(LandingPageActivity.landingIntentFactory(getApplicationContext()));
                 } else {
                     toastMaker("Invalid password");
                     binding.passwordEditText.setSelection(0);
