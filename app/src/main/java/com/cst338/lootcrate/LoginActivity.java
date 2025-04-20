@@ -1,6 +1,8 @@
 package com.cst338.lootcrate;
 
 
+import static com.cst338.lootcrate.MainActivity.mainActivityIntentFactory;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        repository = LootCrateRepository.getRepository(getApplication());
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
