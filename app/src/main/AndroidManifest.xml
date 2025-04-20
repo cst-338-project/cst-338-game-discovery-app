@@ -20,6 +20,12 @@
             android:exported="true"/>
 
         <activity
+            android:name=".ProfilePageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LandingPageActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true" >
             <intent-filter>

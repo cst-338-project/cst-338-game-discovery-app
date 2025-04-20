@@ -15,19 +15,14 @@ import com.cst338.lootcrate.database.LootCrateRepository;
 
 public class MainActivity extends AppCompatActivity {
     private LootCrateRepository repository;
-    private static final String MAIN_ACTIVITY_USER_ID = "com.cst338.lootcrate.MAIN_ACTIVITY_USER_ID";
-    int loggedInUserId = -1;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        loginUser();
-        if(loggedInUserId == -1){
-            Intent intent = LoginActivity.loginIntentFactory(getApplicationContext());
-            startActivity(intent);
-        }
 
         repository = LootCrateRepository.getRepository(getApplication());
 
@@ -40,14 +35,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-    }
-    private void loginUser() {
-        //TODO: create login method
-        loggedInUserId = getIntent().getIntExtra(MAIN_ACTIVITY_USER_ID, -1);
-    }
-    static Intent mainActivityIntentFactory(Context context, int userId){
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(MAIN_ACTIVITY_USER_ID, userId);
-        return intent;
     }
 }
