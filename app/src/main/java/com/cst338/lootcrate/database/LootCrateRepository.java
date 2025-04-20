@@ -44,6 +44,12 @@ public class LootCrateRepository {
         return null;
     }
 
+    public void insertUser(User... user){
+        LootCrateDatabase.databaseWriteExecutor.execute(()->
+        {
+            userDAO.insert(user);
+        });
+    }
     public LiveData<User> getUserByUserName(String username) {
         return userDAO.getUserByUserName(username);
     }
