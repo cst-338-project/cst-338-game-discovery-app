@@ -33,6 +33,18 @@ public class ProfilePageActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        logout();
+    }
+
+    private void logout() {
+        //TODO: Add logout
+        binding.logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     static Intent profileIntentFactory(Context context) {
