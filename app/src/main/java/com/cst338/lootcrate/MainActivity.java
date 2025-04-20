@@ -1,5 +1,7 @@
 package com.cst338.lootcrate;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -14,10 +16,13 @@ import com.cst338.lootcrate.database.LootCrateRepository;
 public class MainActivity extends AppCompatActivity {
     private LootCrateRepository repository;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         repository = LootCrateRepository.getRepository(getApplication());
 
