@@ -10,19 +10,19 @@
 
     <ImageView
         android:id="@+id/gameImage"
-        android:layout_width="329dp"
-        android:layout_height="455dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_margin="16dp"
         android:background="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profileButton"
+        app:layout_constraintBottom_toTopOf="@id/infoBox"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintVertical_bias="0.213" />
 
     <LinearLayout
         android:id="@+id/infoBox"
-        android:layout_width="329dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="8dp"
@@ -52,16 +52,13 @@
         android:layout_width="115dp"
         android:layout_height="115dp"
         android:layout_margin="16dp"
-        android:layout_marginBottom="16dp"
         android:drawableTop="@drawable/dislike_button"
-        android:textSize="32sp"
         android:backgroundTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.133"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/infoBox"
-        app:layout_constraintVertical_bias="0.666" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/likeButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread" />
 
     <Button
         android:id="@+id/likeButton"
@@ -70,24 +67,22 @@
         android:layout_margin="16dp"
         android:layout_marginBottom="16dp"
         android:drawableTop="@drawable/like_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.911"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/infoBox"
-        app:layout_constraintVertical_bias="0.633"
+        app:layout_constraintStart_toEndOf="@id/dislikeButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:backgroundTint="#FF0000"/>
 
     <Button
         android:id="@+id/profileButton"
-        android:layout_width="163dp"
-        android:layout_height="60dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="profile"
         android:textSize="20sp"
         android:gravity="start|center_vertical"
         android:drawableEnd="@drawable/profile"
         android:drawablePadding="4dp"
-        android:layout_marginRight="-20dp"
+        android:layout_marginEnd="8dp"
         android:textColor="@color/black"
         android:backgroundTint="@android:color/transparent"
         app:layout_constraintTop_toTopOf="parent"

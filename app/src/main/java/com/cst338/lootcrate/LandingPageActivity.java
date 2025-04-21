@@ -6,14 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
+import androidx.lifecycle.LiveData;
 
 import com.cst338.lootcrate.database.LootCrateRepository;
 import com.cst338.lootcrate.database.entities.User;
@@ -21,6 +18,7 @@ import com.cst338.lootcrate.databinding.ActivityLandingPageBinding;
 
 public class LandingPageActivity extends AppCompatActivity {
 
+    private static final String LANDING_PAGE_ACTIVITY_USER_ID = "com.cst338.lootcrate.LANDING_PAGE_ACTIVITY_USER_ID";
     private ActivityLandingPageBinding binding;
 
     private LootCrateRepository repository;
@@ -30,9 +28,48 @@ public class LandingPageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityLandingPageBinding.inflate(getLayoutInflater());
-
         setContentView(binding.getRoot());
 
+        loggedInUserId = getIntent().getIntExtra(LANDING_PAGE_ACTIVITY_USER_ID, -1);
+
+        repository = LootCrateRepository.getRepository(getApplication());
+
+        loginUser(savedInstanceState);
+        likeButton();
+        dislikeButton();
+    }
+
+    private void loginUser(Bundle savedInstanceState) {
+        LiveData<User> userObserver = repository.getUserByUserId(loggedInUserId);
+        userObserver.observe(this, user -> {
+            this.user = user;
+            if (user != null) {
+                profileButton();
+            }
+        });
+    }
+
+
+    private void dislikeButton() {
+        binding.dislikeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Wire dislike button
+                Toast.makeText(LandingPageActivity.this, "Disliked", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void likeButton() {
+        binding.likeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: Wire like button
+                Toast.makeText(LandingPageActivity.this, "Liked", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void profileButton() {
         if (user != null) {
             if (user.isAdmin()) {
                 binding.profileButton.setText("admin");
@@ -44,14 +81,15 @@ public class LandingPageActivity extends AppCompatActivity {
         binding.profileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = ProfilePageActivity.profileIntentFactory(getApplicationContext());
+                Intent intent = ProfilePageActivity.profileIntentFactory(getApplicationContext(), loggedInUserId);
                 startActivity(intent);
             }
         });
     }
-
-    static Intent landingIntentFactory(Context context) {
-        return new Intent(context, LandingPageActivity.class);
+    static Intent landingIntentFactory(Context context, int userId) {
+        Intent intent = new Intent(context, LandingPageActivity.class);
+        intent.putExtra(LANDING_PAGE_ACTIVITY_USER_ID, userId);
+        return intent;
     }
 
 }

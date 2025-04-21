@@ -23,8 +23,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         repository = LootCrateRepository.getRepository(getApplication());
+
+        Intent intent = LoginActivity.loginIntentFactory(getApplicationContext());
+        startActivity(intent);
 
         // Force query to see usertable in the App Inspector
         repository.getUserByUserName("admin2").observe(this, user -> {
@@ -34,8 +36,5 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("MainActivity", "Admin user not found");
             }
         });
-
-        Intent intent = LoginActivity.loginIntentFactory((getApplicationContext()));
-        startActivity(intent);
     }
 }
