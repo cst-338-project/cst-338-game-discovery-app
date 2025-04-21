@@ -18,6 +18,8 @@ import java.util.concurrent.Executors;
 public abstract class LootCrateDatabase extends RoomDatabase {
     public static final String DATABASE_NAME = "LootCrateDatabase";
     public static final String USER_TABLE = "usertable";
+    public static final String GAME_TABLE = "gametable";
+    public static final String SWIPE_TABLE = "swipetable";
     private static volatile LootCrateDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
