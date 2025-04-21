@@ -20,6 +20,7 @@ import com.cst338.lootcrate.databinding.ActivityProfilePageBinding;
 public class ProfilePageActivity extends AppCompatActivity {
 
     private static final String PROFILE_PAGE_ACTIVITY_USER_ID = "com.cst338.lootcrate.PROFILE_PAGE_ACTIVITY_USER_ID";
+    private static final int LOGGED_OUT = -1;
     private ActivityProfilePageBinding binding;
 
     private int loggedInUserId = -1;
@@ -42,7 +43,12 @@ public class ProfilePageActivity extends AppCompatActivity {
             }
         });
 
-        logout();
+        binding.logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLogOutDialog();
+            }
+        });
     }
 
     private void showLogOutDialog() {
@@ -54,7 +60,7 @@ public class ProfilePageActivity extends AppCompatActivity {
         alertBuilder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                startActivity(LoginActivity.loginIntentFactory(getApplicationContext()));
+                logout();
             }
         });
 
@@ -68,12 +74,7 @@ public class ProfilePageActivity extends AppCompatActivity {
         alertBuilder.create().show();
     }
     private void logout() {
-        binding.logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showLogOutDialog();
-            }
-        });
+        startActivity(LoginActivity.loginIntentFactory(getApplicationContext()));
     }
 
     static Intent profileIntentFactory(Context context, int userId) {
