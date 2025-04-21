@@ -3,11 +3,13 @@ package com.cst338.lootcrate;
 import static com.cst338.lootcrate.LandingPageActivity.landingIntentFactory;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -43,12 +45,33 @@ public class ProfilePageActivity extends AppCompatActivity {
         logout();
     }
 
+    private void showLogOutDialog() {
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(ProfilePageActivity.this);
+        final AlertDialog alertDialog = alertBuilder.create(); // instantiating memory for alert dialog, singleton make sure one alert dialog at a time
+
+        alertBuilder.setMessage("Logout?");
+
+        alertBuilder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(LoginActivity.loginIntentFactory(getApplicationContext()));
+            }
+        });
+
+        alertBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                alertDialog.dismiss();
+            }
+        });
+
+        alertBuilder.create().show();
+    }
     private void logout() {
-        //TODO: Add logout
         binding.logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(LoginActivity.loginIntentFactory(getApplicationContext()));
+                showLogOutDialog();
             }
         });
     }
