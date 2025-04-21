@@ -18,11 +18,22 @@ public class Game {
     private String author;
     private double price;
 
-    public Game(int id, String title, String author, double price) {
+    private String imageURL;
+
+    public Game(int id, String title, String author, double price, String imageURL) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.price = price;
+        this.imageURL = imageURL;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 
     @Override
@@ -32,6 +43,7 @@ public class Game {
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", price=" + price +
+                ", imageURL='" + imageURL + '\'' +
                 '}';
     }
 
@@ -39,12 +51,12 @@ public class Game {
     public boolean equals(Object o) {
         if (!(o instanceof Game)) return false;
         Game game = (Game) o;
-        return id == game.id && Double.compare(price, game.price) == 0 && Objects.equals(title, game.title) && Objects.equals(author, game.author);
+        return id == game.id && Double.compare(price, game.price) == 0 && Objects.equals(title, game.title) && Objects.equals(author, game.author) && Objects.equals(imageURL, game.imageURL);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, author, price);
+        return Objects.hash(id, title, author, price, imageURL);
     }
 
     public String getAuthor() {
