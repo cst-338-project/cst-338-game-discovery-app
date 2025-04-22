@@ -1,7 +1,7 @@
 package com.cst338.lootcrate.database;
 
 import android.content.Context;
-import android.util.Log;
+import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -59,4 +59,7 @@ public abstract class LootCrateDatabase extends RoomDatabase {
     };
 
     public abstract UserDAO userDAO();
+
+
+
 }

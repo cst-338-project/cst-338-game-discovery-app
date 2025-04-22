@@ -1,9 +1,12 @@
 package com.cst338.lootcrate.database;
 
 import android.app.Application;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.cst338.lootcrate.database.entities.User;
 
@@ -59,4 +62,24 @@ public class LootCrateRepository {
     public LiveData<User> getUserByUserId(int userId) {
         return userDAO.getUserByUserId(userId);
     }
+
+
+
+    public boolean alrHasUser(String username){
+        boolean hasUser = false;
+        SupportSQLiteDatabase db = LootCrateDatabase.getDatabase(null).getOpenHelper().getWritableDatabase();
+        String query = "SELECT * FROM " + LootCrateDatabase.USER_TABLE + " WHERE username = ?";
+        Cursor cursor = db.query(query, new String[]{username});
+        if (cursor != null) {
+            if (cursor.getCount() > 0) {
+                hasUser = true;
+            }
+            cursor.close();
+        }
+        return hasUser;
+    }
+    
+       
+
+
 }
