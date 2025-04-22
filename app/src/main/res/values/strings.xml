@@ -11,4 +11,6 @@
     <string name="loot_crate">Loot Crate!</string>
     <string name="welcome_to_loot_crate_sign_up_page_please_enter_your_details">Welcome to Loot Crate Sign Up Page, Please Enter Your Details!</string>
     <string name="confirm_password">Confirm Password:</string>
+    <string name="preference_file_key">jnPreferenceFileNameLootCrate</string>
+    <string name="preference_userId_key">jnPreferenceUserIdKeyLootCrate</string>
 </resources>

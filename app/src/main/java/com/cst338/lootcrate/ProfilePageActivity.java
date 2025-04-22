@@ -5,6 +5,7 @@ import static com.cst338.lootcrate.LandingPageActivity.landingIntentFactory;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
@@ -74,7 +75,12 @@ public class ProfilePageActivity extends AppCompatActivity {
         alertBuilder.create().show();
     }
     private void logout() {
-        startActivity(LoginActivity.loginIntentFactory(getApplicationContext()));
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor sharedPrefEditor = sharedPreferences.edit();
+        sharedPrefEditor.putInt(getString(R.string.preference_userId_key), LOGGED_OUT);
+        sharedPrefEditor.apply();
+
+        startActivity(MainActivity.mainActivityIntentFactory(getApplicationContext(), LOGGED_OUT));
     }
 
     static Intent profileIntentFactory(Context context, int userId) {
