@@ -5,7 +5,6 @@ import androidx.room.PrimaryKey;
 
 import com.cst338.lootcrate.database.LootCrateDatabase;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 
@@ -16,15 +15,14 @@ public class Game {
     private int id;
     private String title;
     private String author;
-    private double price;
+    private String genre;
 
     private String imageURL;
 
-    public Game(int id, String title, String author, double price, String imageURL) {
-        this.id = id;
+    public Game(String title, String author, String genre, String imageURL) {
         this.title = title;
         this.author = author;
-        this.price = price;
+        this.genre = genre;
         this.imageURL = imageURL;
     }
 
@@ -42,7 +40,7 @@ public class Game {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
-                ", price=" + price +
+                ", price=" + genre +
                 ", imageURL='" + imageURL + '\'' +
                 '}';
     }
@@ -51,12 +49,12 @@ public class Game {
     public boolean equals(Object o) {
         if (!(o instanceof Game)) return false;
         Game game = (Game) o;
-        return id == game.id && Double.compare(price, game.price) == 0 && Objects.equals(title, game.title) && Objects.equals(author, game.author) && Objects.equals(imageURL, game.imageURL);
+        return id == game.id && Objects.equals(title, game.title) && Objects.equals(author, game.author) && Objects.equals(genre, game.genre) && Objects.equals(imageURL, game.imageURL);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, author, price, imageURL);
+        return Objects.hash(id, title, author, genre, imageURL);
     }
 
     public String getAuthor() {
@@ -67,12 +65,12 @@ public class Game {
         this.author = author;
     }
 
-    public double getPrice() {
-        return price;
+    public String getGenre() {
+        return genre;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
     public String getTitle() {

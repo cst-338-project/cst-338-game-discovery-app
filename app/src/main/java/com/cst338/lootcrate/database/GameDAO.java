@@ -1,5 +1,6 @@
 package com.cst338.lootcrate.database;
 
+import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -8,6 +9,7 @@ import com.cst338.lootcrate.database.entities.Game;
 
 import java.util.List;
 
+@Dao
 public interface GameDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -16,6 +18,6 @@ public interface GameDAO {
     @Query("DELETE FROM " + LootCrateDatabase.GAME_TABLE)
     void deleteAll();
 
-    @Query("SELECT * FROM " + LootCrateDatabase.GAME_TABLE + " ORDER BY price DESC")
+    @Query("SELECT * FROM " + LootCrateDatabase.GAME_TABLE + " ORDER BY genre DESC")
     List<Game> getAllGames();
 }
