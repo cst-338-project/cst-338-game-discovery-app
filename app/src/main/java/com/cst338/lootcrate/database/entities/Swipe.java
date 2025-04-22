@@ -16,10 +16,9 @@ public class Swipe {
     private int gameId;
     private boolean isLiked;
 
-    public Swipe(int gameId, int userId, int id, boolean isLiked) {
+    public Swipe(int gameId, int userId, boolean isLiked) {
         this.gameId = gameId;
         this.userId = userId;
-        this.id = id;
         this.isLiked = isLiked;
     }
 
