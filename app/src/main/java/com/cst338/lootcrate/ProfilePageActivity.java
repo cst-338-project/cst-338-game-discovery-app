@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
@@ -16,6 +17,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.cst338.lootcrate.database.LootCrateRepository;
+import com.cst338.lootcrate.database.entities.User;
 import com.cst338.lootcrate.databinding.ActivityProfilePageBinding;
 
 public class ProfilePageActivity extends AppCompatActivity {
@@ -23,6 +26,10 @@ public class ProfilePageActivity extends AppCompatActivity {
     private static final String PROFILE_PAGE_ACTIVITY_USER_ID = "com.cst338.lootcrate.PROFILE_PAGE_ACTIVITY_USER_ID";
     private static final int LOGGED_OUT = -1;
     private ActivityProfilePageBinding binding;
+
+    private LootCrateRepository repository;
+
+    private User user;
 
     private int loggedInUserId = -1;
 
@@ -35,6 +42,17 @@ public class ProfilePageActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         loggedInUserId = getIntent().getIntExtra(PROFILE_PAGE_ACTIVITY_USER_ID, -1);
+        repository = LootCrateRepository.getRepository(getApplication());
+
+        repository.getUserByUserId(loggedInUserId).observe(this, user1 -> {
+            if(user1 != null) {
+                user = user1;
+                viewAnalytics();
+            }
+        });
+
+        likedGames();
+        dislikedGames();
 
         binding.backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +70,38 @@ public class ProfilePageActivity extends AppCompatActivity {
         });
     }
 
+    private void viewAnalytics() {
+        if(!user.isAdmin()) {
+            binding.viewAnalytics.setVisibility(View.INVISIBLE);
+        } else {
+            binding.viewAnalytics.setVisibility(View.VISIBLE);
+        }
+
+        binding.viewAnalytics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ProfilePageActivity.this, "View Analytics", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void likedGames() {
+        binding.likedGames.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ProfilePageActivity.this, "Liked Games", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void dislikedGames() {
+        binding.dislikedGames.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ProfilePageActivity.this, "Disliked Games", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     private void showLogOutDialog() {
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(ProfilePageActivity.this);
         final AlertDialog alertDialog = alertBuilder.create(); // instantiating memory for alert dialog, singleton make sure one alert dialog at a time
