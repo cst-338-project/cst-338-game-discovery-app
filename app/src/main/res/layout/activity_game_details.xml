@@ -21,7 +21,7 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="406dp"
-        android:layout_height="257dp"
+        android:layout_height="200dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gameDetailsTitleTextView"
@@ -59,16 +59,18 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="200dp"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingTop="10sp"
                 android:text="Game Description goes here. Game Description goes here. Game Description goes here. Game Description goes here. Game Description goes here. Game Description goes here.
 Game Description goes here.Game Description goes here.Game Description goes here.Game Description goes here."
                 android:textSize="25sp" />
+
+
         </LinearLayout>
     </ScrollView>
 
@@ -78,7 +80,9 @@ Game Description goes here.Game Description goes here.Game Description goes here
         android:layout_height="53dp"
         android:text="Space for links?"
         android:textSize="20sp"
-        app:layout_constraintTop_toBottomOf="@id/gameDetailsDescriptionScrollView" />
+        app:layout_constraintEnd_toStartOf="@+id/gameDetailsBackButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gameDetailsDescriptionScrollView" />
     <Button
         android:layout_width="150dp"
         android:id="@+id/gameDetailsBackButton"
