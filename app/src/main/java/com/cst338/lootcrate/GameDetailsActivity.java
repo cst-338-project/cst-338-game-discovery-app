@@ -1,5 +1,7 @@
 package com.cst338.lootcrate;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -8,7 +10,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class GameDetails extends AppCompatActivity {
+public class GameDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,5 +22,9 @@ public class GameDetails extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    static Intent gameDetailsIntentFactory(Context context){
+        return new Intent(context, GameDetailsActivity.class);
     }
 }

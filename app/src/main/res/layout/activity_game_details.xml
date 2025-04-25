@@ -5,15 +5,15 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GameDetails">
+    tools:context=".GameDetailsActivity">
 
     <TextView
         android:id="@+id/gameDetailsTitleTextView"
-        android:layout_width="337dp"
-        android:layout_height="96dp"
+        android:layout_width="409dp"
+        android:layout_height="85dp"
         android:gravity="center"
         android:text="Game Title Goes Here"
-        android:textSize="25sp"
+        android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,5 +26,66 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gameDetailsTitleTextView"
         app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+    <TextView
+        android:id="@+id/gameDetailsGenreTextView"
+        android:layout_width="250dp"
+        android:layout_height="58dp"
+        android:gravity="center"
+        android:text="Fantasy RPG"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toStartOf="@+id/gameDetailsPriceTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/gameDetailsPriceTextView"
+        android:layout_width="162dp"
+        android:layout_height="58dp"
+        android:gravity="center"
+        android:text="$59.99"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/gameDetailsDescriptionScrollView"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gameDetailsGenreTextView">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="10sp"
+                android:text="Game Description goes here. Game Description goes here. Game Description goes here. Game Description goes here. Game Description goes here. Game Description goes here.
+Game Description goes here.Game Description goes here.Game Description goes here.Game Description goes here."
+                android:textSize="25sp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/gameDetailsLinksTextView"
+        android:layout_width="263dp"
+        android:layout_height="53dp"
+        android:text="Space for links?"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/gameDetailsDescriptionScrollView" />
+    <Button
+        android:layout_width="150dp"
+        android:id="@+id/gameDetailsBackButton"
+        android:text="Back"
+        android:textSize="20sp"
+        android:layout_height="50dp"
+        app:layout_constraintTop_toBottomOf="@id/gameDetailsDescriptionScrollView"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
