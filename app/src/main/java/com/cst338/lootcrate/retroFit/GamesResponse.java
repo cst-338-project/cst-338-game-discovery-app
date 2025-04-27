@@ -9,6 +9,8 @@ public class GamesResponse {
     private List<APIGame> results;
 
     public List<APIGame>  getResults() {
+
+
         return results;
     }
 }

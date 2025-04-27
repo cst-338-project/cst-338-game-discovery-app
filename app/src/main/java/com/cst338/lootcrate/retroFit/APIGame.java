@@ -23,6 +23,9 @@ public class APIGame {
     @SerializedName("genres")
     private ArrayList<APIGenre> genres;
 
+    @SerializedName("website")
+    private String website;
+
     public int getId() {
         return id;
     }
@@ -45,5 +48,9 @@ public class APIGame {
 
     public String getGenres() {
         return genres.get(0).name;
+    }
+
+    public String getWebsite() {
+        return website;
     }
 }
