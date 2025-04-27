@@ -1,5 +1,6 @@
 package com.cst338.lootcrate.database.entities;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -34,9 +35,10 @@ public class Game {
     }
 
     public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
+        this.imageUrl = imageURL;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Game{" +
