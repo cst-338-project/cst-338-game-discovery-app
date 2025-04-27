@@ -15,11 +15,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 
 import com.cst338.lootcrate.database.LootCrateRepository;
+import com.cst338.lootcrate.database.entities.Game;
 import com.cst338.lootcrate.database.entities.User;
 import com.cst338.lootcrate.databinding.ActivityLandingPageBinding;
+import com.cst338.lootcrate.retroFit.APIClient;
+import com.cst338.lootcrate.retroFit.APIGame;
+import com.cst338.lootcrate.retroFit.GamesResponse;
+import com.cst338.lootcrate.retroFit.RAWGApiService;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LandingPageActivity extends AppCompatActivity {
-
+    private static String RAWG_API_KEY = "";
     private static final String LANDING_PAGE_ACTIVITY_USER_ID = "com.cst338.lootcrate.LANDING_PAGE_ACTIVITY_USER_ID";
     private static final String SAVED_INSTANCE_STATE_USERID_KEY = "com.cst338.lootcrate.SAVED_INSTANCE_STATE_USERID_KEY";
     private ActivityLandingPageBinding binding;
@@ -33,6 +44,36 @@ public class LandingPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityLandingPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // API
+        RAWG_API_KEY = BuildConfig.RAWG_API_KEY;
+        Log.d("API_KEY", RAWG_API_KEY);
+        RAWGApiService apiService = APIClient.getClient().create(RAWGApiService.class);
+        Call<GamesResponse> call = apiService.getGames(RAWG_API_KEY, 3, 10);
+
+        call.enqueue(new Callback<GamesResponse>() {
+            @Override
+            public void onResponse(Call<GamesResponse> call, Response<GamesResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<APIGame> games = response.body().getResults();
+                    for (APIGame game : games) {
+                        String name = game.getName();
+                        String summary = game.getSummary();
+
+                        Log.d("LOOTCRATE", "Game Name: " + name);
+                    }
+                } else {
+                    Log.e("API Error", "Response not successful");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GamesResponse> call, Throwable throwable) {
+                if (throwable.getMessage() != null) {
+                    Log.e("API ERROR", throwable.getMessage());
+                }
+            }
+        });
 
         loggedInUserId = getIntent().getIntExtra(LANDING_PAGE_ACTIVITY_USER_ID, -1);
 

@@ -5,7 +5,7 @@ import retrofit2.http.Query;
 
 
 public interface RAWGApiService {
-    @GET("games")
+    @GET("games") // Call to /games endpoint
     Call<GamesResponse> getGames(
             @Query("key") String apiKey,
             @Query("page") int page,

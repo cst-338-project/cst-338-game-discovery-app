@@ -20,4 +20,28 @@ public class APIGame {
 
     @SerializedName("genre")
     private String genre;
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getReleased() {
+        return released;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
 }
