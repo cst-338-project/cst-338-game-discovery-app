@@ -2,6 +2,8 @@ package com.cst338.lootcrate.retroFit;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class APIGame {
     @SerializedName("id")
     private int id;
@@ -12,14 +14,14 @@ public class APIGame {
     @SerializedName("released")
     private String released;
 
-    @SerializedName("summary")
-    private String summary;
+    @SerializedName("description")
+    private String description;
 
-    @SerializedName("image_url")
-    private String image_url;
+    @SerializedName("background_image")
+    private String background_image;
 
-    @SerializedName("genre")
-    private String genre;
+    @SerializedName("genres")
+    private ArrayList<APIGenre> genres;
 
     public int getId() {
         return id;
@@ -33,15 +35,15 @@ public class APIGame {
         return released;
     }
 
-    public String getSummary() {
-        return summary;
+    public String getDescription() {
+        return description;
     }
 
-    public String getImage_url() {
-        return image_url;
+    public String getBackgroundImage() {
+        return background_image;
     }
 
-    public String getGenre() {
-        return genre;
+    public String getGenres() {
+        return genres.get(0).name;
     }
 }
