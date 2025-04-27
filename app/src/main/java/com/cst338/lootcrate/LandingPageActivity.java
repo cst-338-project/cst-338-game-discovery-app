@@ -42,6 +42,8 @@ public class LandingPageActivity extends AppCompatActivity {
     private final int LOGGED_OUT = -1;
     private User user;
     private ArrayList<Game> gameList = new ArrayList<>();
+    private int swipeCount = 0; // Once swipe count is greater than 10, reset back to 0, increment page, and query 10 more games from API
+    private int page = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +68,7 @@ public class LandingPageActivity extends AppCompatActivity {
      * Method to fetch list of games.
      */
     private void fetchGamesList() {
-        Call<GamesResponse> call = apiService.getGames(RAWG_API_KEY, 1, 10);
+        Call<GamesResponse> call = apiService.getGames(RAWG_API_KEY, page, 10);
         call.enqueue(new Callback<GamesResponse>() {
             @Override
             public void onResponse(Call<GamesResponse> call, Response<GamesResponse> response) {
@@ -101,6 +103,7 @@ public class LandingPageActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     GameDetails details = response.body();
                     Game currentGame = new Game(
+                            details.getId(),
                             details.getWebsite(),
                             details.getReleased(),
                             details.getBackgroundImage(),

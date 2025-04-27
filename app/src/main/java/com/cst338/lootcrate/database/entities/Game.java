@@ -20,7 +20,8 @@ public class Game {
     private String released;
     private String website;
 
-    public Game(String website, String released, String imageUrl, String genre, String description, String title) {
+    public Game(int id, String website, String released, String imageUrl, String genre, String description, String title) {
+        this.id = id;
         this.website = website;
         this.released = released;
         this.imageUrl = imageUrl;
@@ -31,10 +32,6 @@ public class Game {
 
     public String getImageUrl() {
         return imageUrl;
-    }
-
-    public void setImageURL(String imageURL) {
-        this.imageUrl = imageURL;
     }
 
     @NonNull
