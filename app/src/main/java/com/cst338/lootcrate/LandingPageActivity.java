@@ -15,24 +15,45 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 
 import com.cst338.lootcrate.database.LootCrateRepository;
+import com.cst338.lootcrate.database.entities.Game;
 import com.cst338.lootcrate.database.entities.User;
 import com.cst338.lootcrate.databinding.ActivityLandingPageBinding;
+import com.cst338.lootcrate.retroFit.APIClient;
+import com.cst338.lootcrate.retroFit.APIGame;
+import com.cst338.lootcrate.retroFit.GameDetails;
+import com.cst338.lootcrate.retroFit.GamesResponse;
+import com.cst338.lootcrate.retroFit.RAWGApiService;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LandingPageActivity extends AppCompatActivity {
-
+    private static final String RAWG_API_KEY = BuildConfig.RAWG_API_KEY;
+    RAWGApiService apiService = null;
     private static final String LANDING_PAGE_ACTIVITY_USER_ID = "com.cst338.lootcrate.LANDING_PAGE_ACTIVITY_USER_ID";
     private static final String SAVED_INSTANCE_STATE_USERID_KEY = "com.cst338.lootcrate.SAVED_INSTANCE_STATE_USERID_KEY";
     private ActivityLandingPageBinding binding;
-
     private LootCrateRepository repository;
     private int loggedInUserId = -1;
     private final int LOGGED_OUT = -1;
     private User user;
+    private ArrayList<Game> gameList = new ArrayList<>();
+    private int swipeCount = 0; // Once swipe count is greater than 10, reset back to 0, increment page, and query 10 more games from API
+    private int page = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityLandingPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // API
+        apiService = APIClient.getClient().create(RAWGApiService.class);
+        fetchGamesList();
 
         loggedInUserId = getIntent().getIntExtra(LANDING_PAGE_ACTIVITY_USER_ID, -1);
 
@@ -41,6 +62,67 @@ public class LandingPageActivity extends AppCompatActivity {
         loginUser(savedInstanceState);
         likeButton();
         dislikeButton();
+    }
+
+    /**
+     * Method to fetch list of games.
+     */
+    private void fetchGamesList() {
+        Call<GamesResponse> call = apiService.getGames(RAWG_API_KEY, page, 10);
+        call.enqueue(new Callback<GamesResponse>() {
+            @Override
+            public void onResponse(Call<GamesResponse> call, Response<GamesResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<APIGame> games = response.body().getResults();
+                    for (APIGame game : games) {
+                        int id = game.getId();
+                        fetchGameDetails(id);
+                    }
+                } else {
+                    Log.e("API Error", "Response not successful");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GamesResponse> call, Throwable throwable) {
+                if (throwable.getMessage() != null) {
+                    Log.e("API ERROR", throwable.getMessage());
+                }
+            }
+        });
+    }
+
+    /**
+     * Method to fetch game details by gameID
+     */
+    private void fetchGameDetails(int gameId) {
+        Call<GameDetails> call = apiService.getGameDetails(gameId, RAWG_API_KEY);
+        call.enqueue(new Callback<GameDetails>() {
+            @Override
+            public void onResponse(Call<GameDetails> call, Response<GameDetails> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    GameDetails details = response.body();
+                    Game currentGame = new Game(
+                            details.getId(),
+                            details.getWebsite(),
+                            details.getReleased(),
+                            details.getBackgroundImage(),
+                            details.getGenre(),
+                            details.getDescription(),
+                            details.getName()
+                    );
+                    gameList.add(currentGame);
+                    Log.d("LOOTCRATE", currentGame.toString());
+                } else {
+                    Log.e("LOOTCRATE", "Game details fetch failed for ID: " + gameId);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GameDetails> call, Throwable throwable) {
+                Log.e("LOOTCRATE", "Game details fetch error: " + throwable.getMessage());
+            }
+        });
     }
 
     private void loginUser(Bundle savedInstanceState) {

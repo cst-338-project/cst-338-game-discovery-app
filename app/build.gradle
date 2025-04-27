@@ -1,6 +1,12 @@
 plugins {
     alias(libs.plugins.android.application)
 }
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(new FileInputStream(localPropertiesFile))
+}
+def apiKey = localProperties.getProperty("RAWG_API_KEY") ?: ""
 
 android {
     namespace 'com.cst338.lootcrate'
@@ -14,6 +20,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "RAWG_API_KEY", "\"${apiKey}\""
+
     }
 
     buildTypes {
@@ -30,13 +39,19 @@ android {
     buildFeatures {
         viewBinding = true;
         dataBinding = true;
+        buildConfig = true;
     }
 }
 
 dependencies {
+    // Room
     implementation libs.room.runtime
     implementation libs.room.common.jvm
     annotationProcessor libs.room.compiler
+
+    // RetroFit
+    implementation 'com.squareup.retrofit2:retrofit:2.11.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.11.0'
 
     implementation libs.appcompat
     implementation libs.material
