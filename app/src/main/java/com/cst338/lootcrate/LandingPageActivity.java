@@ -20,6 +20,7 @@ import com.cst338.lootcrate.database.entities.User;
 import com.cst338.lootcrate.databinding.ActivityLandingPageBinding;
 import com.cst338.lootcrate.retroFit.APIClient;
 import com.cst338.lootcrate.retroFit.APIGame;
+import com.cst338.lootcrate.retroFit.GameDetails;
 import com.cst338.lootcrate.retroFit.GamesResponse;
 import com.cst338.lootcrate.retroFit.RAWGApiService;
 
@@ -31,6 +32,7 @@ import retrofit2.Response;
 
 public class LandingPageActivity extends AppCompatActivity {
     private static final String RAWG_API_KEY = BuildConfig.RAWG_API_KEY;
+    RAWGApiService apiService = null;
     private static final String LANDING_PAGE_ACTIVITY_USER_ID = "com.cst338.lootcrate.LANDING_PAGE_ACTIVITY_USER_ID";
     private static final String SAVED_INSTANCE_STATE_USERID_KEY = "com.cst338.lootcrate.SAVED_INSTANCE_STATE_USERID_KEY";
     private ActivityLandingPageBinding binding;
@@ -46,19 +48,31 @@ public class LandingPageActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         // API
-        RAWGApiService apiService = APIClient.getClient().create(RAWGApiService.class);
-        Call<GamesResponse> call = apiService.getGames(RAWG_API_KEY, 3, 10);
+        apiService = APIClient.getClient().create(RAWGApiService.class);
+        fetchGamesList();
 
+        loggedInUserId = getIntent().getIntExtra(LANDING_PAGE_ACTIVITY_USER_ID, -1);
+
+        repository = LootCrateRepository.getRepository(getApplication());
+
+        loginUser(savedInstanceState);
+        likeButton();
+        dislikeButton();
+    }
+
+    /**
+     * Method to fetch list of games.
+     */
+    private void fetchGamesList() {
+        Call<GamesResponse> call = apiService.getGames(RAWG_API_KEY, 1, 10);
         call.enqueue(new Callback<GamesResponse>() {
             @Override
             public void onResponse(Call<GamesResponse> call, Response<GamesResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<APIGame> games = response.body().getResults();
                     for (APIGame game : games) {
-                        String name = game.getName();
-                        String genres = game.getGenres();
-
-                        Log.d("LOOTCRATE", "Game Name: " + genres);
+                        int id = game.getId();
+                        fetchGameDetails(id);
                     }
                 } else {
                     Log.e("API Error", "Response not successful");
@@ -72,14 +86,29 @@ public class LandingPageActivity extends AppCompatActivity {
                 }
             }
         });
+    }
 
-        loggedInUserId = getIntent().getIntExtra(LANDING_PAGE_ACTIVITY_USER_ID, -1);
+    /**
+     * Method to fetch game details by gameID
+     */
+    private void fetchGameDetails(int gameId) {
+        Call<GameDetails> call = apiService.getGameDetails(gameId, RAWG_API_KEY);
+        call.enqueue(new Callback<GameDetails>() {
+            @Override
+            public void onResponse(Call<GameDetails> call, Response<GameDetails> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    GameDetails details = response.body();
+                    Log.d("LOOTCRATE", "Game Details - Name: " + details.getName() + ", Description: " + details.getDescription());
+                } else {
+                    Log.e("LOOTCRATE", "Game details fetch failed for ID: " + gameId);
+                }
+            }
 
-        repository = LootCrateRepository.getRepository(getApplication());
-
-        loginUser(savedInstanceState);
-        likeButton();
-        dislikeButton();
+            @Override
+            public void onFailure(Call<GameDetails> call, Throwable throwable) {
+                Log.e("LOOTCRATE", "Game details fetch error: " + throwable.getMessage());
+            }
+        });
     }
 
     private void loginUser(Bundle savedInstanceState) {
