@@ -24,6 +24,7 @@ import com.cst338.lootcrate.retroFit.GameDetails;
 import com.cst338.lootcrate.retroFit.GamesResponse;
 import com.cst338.lootcrate.retroFit.RAWGApiService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -36,11 +37,12 @@ public class LandingPageActivity extends AppCompatActivity {
     private static final String LANDING_PAGE_ACTIVITY_USER_ID = "com.cst338.lootcrate.LANDING_PAGE_ACTIVITY_USER_ID";
     private static final String SAVED_INSTANCE_STATE_USERID_KEY = "com.cst338.lootcrate.SAVED_INSTANCE_STATE_USERID_KEY";
     private ActivityLandingPageBinding binding;
-
     private LootCrateRepository repository;
     private int loggedInUserId = -1;
     private final int LOGGED_OUT = -1;
     private User user;
+    private ArrayList<Game> gameList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +100,16 @@ public class LandingPageActivity extends AppCompatActivity {
             public void onResponse(Call<GameDetails> call, Response<GameDetails> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     GameDetails details = response.body();
-                    Log.d("LOOTCRATE", "Game Details - Name: " + details.getName() + ", Description: " + details.getDescription());
+                    Game currentGame = new Game(
+                            details.getWebsite(),
+                            details.getReleased(),
+                            details.getBackgroundImage(),
+                            details.getGenre(),
+                            details.getDescription(),
+                            details.getName()
+                    );
+                    gameList.add(currentGame);
+                    Log.d("LOOTCRATE", currentGame.toString());
                 } else {
                     Log.e("LOOTCRATE", "Game details fetch failed for ID: " + gameId);
                 }

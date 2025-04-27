@@ -11,7 +11,6 @@ import java.util.Objects;
 
 @Entity(tableName = LootCrateDatabase.GAME_TABLE)
 public class Game {
-
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String title;

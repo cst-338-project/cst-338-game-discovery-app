@@ -50,7 +50,7 @@ public class GameDetails {
         return website;
     }
 
-    public String getGenres() {
+    public String getGenre() {
         return genres.get(0).name;
     }
 }
