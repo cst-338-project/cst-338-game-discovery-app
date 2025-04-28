@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 
+import com.bumptech.glide.Glide;
 import com.cst338.lootcrate.database.LootCrateRepository;
 import com.cst338.lootcrate.database.entities.Game;
 import com.cst338.lootcrate.database.entities.User;
@@ -112,6 +113,11 @@ public class LandingPageActivity extends AppCompatActivity {
                             details.getName()
                     );
                     gameList.add(currentGame);
+
+                    if(gameList.size() == 1) {
+                        displayGame(currentGame);
+                    }
+
                     Log.d("LOOTCRATE", currentGame.toString());
                 } else {
                     Log.e("LOOTCRATE", "Game details fetch failed for ID: " + gameId);
@@ -125,6 +131,28 @@ public class LandingPageActivity extends AppCompatActivity {
         });
     }
 
+    private void displayGame(Game game) {
+        //Loads game image into gameImage
+        Glide.with(this)
+                .load(game.getImageUrl())
+                .into(binding.gameImage);
+
+        binding.gameTitle.setText(game.getTitle());
+        binding.gamePrice.setText(game.getReleased());
+    }
+
+
+    private void displayNextGame() {
+        swipeCount++;
+
+        //Pull More Games After 10 Swipes
+        if(swipeCount >= gameList.size()) {
+            swipeCount = 0;
+            page++;
+            fetchGamesList();
+        }
+        displayGame(gameList.get(swipeCount));
+    }
     private void loginUser(Bundle savedInstanceState) {
         //checked shared pref for logged in user
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.preference_file_key),
@@ -171,6 +199,7 @@ public class LandingPageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //TODO: Wire dislike button
                 Toast.makeText(LandingPageActivity.this, "Disliked", Toast.LENGTH_SHORT).show();
+                displayNextGame();
             }
         });
     }
@@ -181,6 +210,8 @@ public class LandingPageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //TODO: Wire like button
                 Toast.makeText(LandingPageActivity.this, "Liked", Toast.LENGTH_SHORT).show();
+                displayNextGame();
+
             }
         });
     }
