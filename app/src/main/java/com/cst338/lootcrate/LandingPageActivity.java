@@ -113,6 +113,7 @@ public class LandingPageActivity extends AppCompatActivity {
                             details.getName()
                     );
                     gameList.add(currentGame);
+                    repository.insertGame(currentGame);
 
                     if(gameList.size() == 1) {
                         displayGame(currentGame);

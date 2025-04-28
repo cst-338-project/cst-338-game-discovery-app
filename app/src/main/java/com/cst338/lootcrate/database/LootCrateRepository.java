@@ -8,6 +8,7 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.cst338.lootcrate.database.entities.Game;
 import com.cst338.lootcrate.database.entities.User;
 
 import java.util.ArrayList;
@@ -17,11 +18,13 @@ import java.util.concurrent.Future;
 
 public class LootCrateRepository {
     private final UserDAO userDAO;
+    private final GameDAO gameDAO;
     private static LootCrateRepository repository;
 
     public LootCrateRepository(Application application) {
         LootCrateDatabase db = LootCrateDatabase.getDatabase(application);
         this.userDAO = db.userDAO();
+        this.gameDAO = db.gameDAO();
     }
 
     public static LootCrateRepository getRepository(Application application) {
@@ -52,6 +55,13 @@ public class LootCrateRepository {
         LootCrateDatabase.databaseWriteExecutor.execute(()->
         {
             userDAO.insert(user);
+        });
+    }
+
+    public void insertGame(Game... game) {
+        LootCrateDatabase.databaseWriteExecutor.execute(()->
+        {
+            gameDAO.insert(game);
         });
     }
 

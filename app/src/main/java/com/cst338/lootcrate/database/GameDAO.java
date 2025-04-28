@@ -13,7 +13,7 @@ import java.util.List;
 public interface GameDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(Game game);
+    void insert(Game... game);
 
     @Query("DELETE FROM " + LootCrateDatabase.GAME_TABLE)
     void deleteAll();
