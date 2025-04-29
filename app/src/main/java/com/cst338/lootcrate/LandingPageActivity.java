@@ -201,11 +201,6 @@ public class LandingPageActivity extends AppCompatActivity {
                     gameList.poll(); // removes/skips seen game
                 }
             }
-
-            runOnUiThread(() -> {
-                Toast.makeText(this, "Loading more games...", Toast.LENGTH_SHORT).show();
-                loadGames();
-            });
         });
 
     }
@@ -270,7 +265,13 @@ public class LandingPageActivity extends AppCompatActivity {
                 Log.d("SWIPE", "User swiped on game " + currGame.getTitle());
                 repository.insertSwipe(new Swipe(currGame.getId(), user.getId(), false));
                 gameList.poll(); //Removes currGame from list
+                Log.d("SWIPE", "List Size: " + gameList.size());
                 Toast.makeText(LandingPageActivity.this, "Disliked", Toast.LENGTH_SHORT).show();
+
+                if (gameList.size() < 5) {
+                    loadGames();
+                }
+
                 displayNextGame();
             }
         });
@@ -288,7 +289,13 @@ public class LandingPageActivity extends AppCompatActivity {
                 Log.d("SWIPE", "User swiped on game " + currGame.getTitle());
                 repository.insertSwipe(new Swipe(currGame.getId(), user.getId(), true));
                 gameList.poll();
+                Log.d("SWIPE", "List Size: " + gameList.size());
                 Toast.makeText(LandingPageActivity.this, "Liked", Toast.LENGTH_SHORT).show();
+
+                if (gameList.size() < 5) {
+                    loadGames();
+                }
+
                 displayNextGame();
 
             }
