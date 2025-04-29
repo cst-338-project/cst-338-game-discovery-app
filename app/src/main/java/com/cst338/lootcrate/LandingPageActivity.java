@@ -17,6 +17,7 @@ import androidx.lifecycle.LiveData;
 import com.bumptech.glide.Glide;
 import com.cst338.lootcrate.database.LootCrateRepository;
 import com.cst338.lootcrate.database.entities.Game;
+import com.cst338.lootcrate.database.entities.Swipe;
 import com.cst338.lootcrate.database.entities.User;
 import com.cst338.lootcrate.databinding.ActivityLandingPageBinding;
 import com.cst338.lootcrate.retroFit.APIClient;
@@ -26,6 +27,7 @@ import com.cst338.lootcrate.retroFit.GamesResponse;
 import com.cst338.lootcrate.retroFit.RAWGApiService;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import retrofit2.Call;
@@ -46,19 +48,21 @@ public class LandingPageActivity extends AppCompatActivity {
     private int swipeCount = 0; // Once swipe count is greater than 10, reset back to 0, increment page, and query 10 more games from API
     private int page = 1;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityLandingPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        repository = LootCrateRepository.getRepository(getApplication());
+        
         // API
         apiService = APIClient.getClient().create(RAWGApiService.class);
         fetchGamesList();
 
         loggedInUserId = getIntent().getIntExtra(LANDING_PAGE_ACTIVITY_USER_ID, -1);
 
-        repository = LootCrateRepository.getRepository(getApplication());
 
         loginUser(savedInstanceState);
         likeButton();
@@ -137,7 +141,6 @@ public class LandingPageActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(game.getImageUrl())
                 .into(binding.gameImage);
-
         binding.gameTitle.setText(game.getTitle());
         binding.gamePrice.setText(game.getReleased());
     }
@@ -146,13 +149,14 @@ public class LandingPageActivity extends AppCompatActivity {
     private void displayNextGame() {
         swipeCount++;
 
-        //Pull More Games After 10 Swipes
-        if(swipeCount >= gameList.size()) {
-            swipeCount = 0;
+        //Displays game and adds it to seenGames so same game won't display.
+        displayGame(gameList.get(swipeCount));
+
+        //Fetches 10 more games when 5 games left to go through
+        if(gameList.size() - swipeCount <= 5) {
             page++;
             fetchGamesList();
         }
-        displayGame(gameList.get(swipeCount));
     }
     private void loginUser(Bundle savedInstanceState) {
         //checked shared pref for logged in user
@@ -200,6 +204,7 @@ public class LandingPageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //TODO: Wire dislike button
                 Toast.makeText(LandingPageActivity.this, "Disliked", Toast.LENGTH_SHORT).show();
+                repository.insertSwipe(new Swipe(gameList.get(swipeCount).getId(), user.getId(),false));
                 displayNextGame();
             }
         });
@@ -211,6 +216,7 @@ public class LandingPageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //TODO: Wire like button
                 Toast.makeText(LandingPageActivity.this, "Liked", Toast.LENGTH_SHORT).show();
+                repository.insertSwipe(new Swipe(gameList.get(swipeCount).getId(), user.getId(),true));
                 displayNextGame();
 
             }

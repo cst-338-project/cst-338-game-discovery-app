@@ -10,12 +10,13 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.cst338.lootcrate.database.entities.Game;
+import com.cst338.lootcrate.database.entities.Swipe;
 import com.cst338.lootcrate.database.entities.User;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities={User.class, Game.class}, version=2, exportSchema = false)
+@Database(entities={User.class, Game.class, Swipe.class}, version=3, exportSchema = false)
 public abstract class LootCrateDatabase extends RoomDatabase {
     public static final String DATABASE_NAME = "LootCrateDatabase";
     public static final String USER_TABLE = "usertable";
@@ -64,5 +65,7 @@ public abstract class LootCrateDatabase extends RoomDatabase {
     public abstract UserDAO userDAO();
 
     public abstract GameDAO gameDAO();
+
+    public abstract SwipeDAO swipeDAO();
 
 }
