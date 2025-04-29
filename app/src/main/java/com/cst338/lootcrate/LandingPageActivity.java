@@ -29,6 +29,7 @@ import com.cst338.lootcrate.retroFit.RAWGApiService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -160,7 +161,7 @@ public class LandingPageActivity extends AppCompatActivity {
 
     private void displayNextGame() {
         //Runs on background thread so Activity doesn't crash grabbing swipe
-        LootCrateDatabase.databaseWriteExecutor.execute(() -> {
+        LootCrateDatabase.getDatabaseWriteExecutor().execute(() -> {
             while (currIndex < gameList.size()) {
                 Game next = gameList.get(currIndex);
                 Swipe swipe = repository.getLikeDislikeForUserAndGame(user.getId(), next.getId());
