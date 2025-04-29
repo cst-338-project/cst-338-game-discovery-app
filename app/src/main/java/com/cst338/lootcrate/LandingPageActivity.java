@@ -61,7 +61,6 @@ public class LandingPageActivity extends AppCompatActivity {
 
         // API
         apiService = APIClient.getClient().create(RAWGApiService.class);
-        fetchGamesList();
 
         loggedInUserId = getIntent().getIntExtra(LANDING_PAGE_ACTIVITY_USER_ID, -1);
 
@@ -111,37 +110,51 @@ public class LandingPageActivity extends AppCompatActivity {
             public void onResponse(Call<GameDetails> call, Response<GameDetails> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     GameDetails details = response.body();
+                    LootCrateDatabase.getDatabaseWriteExecutor().execute(() -> {
+                        Swipe swipe = repository.getLikeDislikeForUserAndGame(user.getId(), details.getId()); //Check if game has been swiped on before adding
+                        if (swipe == null) {
+                            Game currentGame = new Game(
+                                    details.getId(),
+                                    details.getWebsite(),
+                                    details.getReleased(),
+                                    details.getBackgroundImage(),
+                                    details.getGenre(),
+                                    details.getDescription(),
+                                    details.getName()
+                            );
+                            repository.insertGame(currentGame);
+                            gameList.add(currentGame);
 
-                    if (!containsGame(details.getId())) {
-                        Game currentGame = new Game(
-                                details.getId(),
-                                details.getWebsite(),
-                                details.getReleased(),
-                                details.getBackgroundImage(),
-                                details.getGenre(),
-                                details.getDescription(),
-                                details.getName()
-                        );
-                        gameList.add(currentGame);
-                        repository.insertGame(currentGame);
-                        if (gameList.size() == 1) {
-                            displayGame(currentGame);
+                            runOnUiThread(() -> {displayNextGame();});
                         }
-                        Log.d("GAME_LIST", "Current size: " + gameList.size());
-                        Log.d("GAME_LIST", currentGame.getTitle() + " - ID: " + currentGame.getId());
-
-                        Log.d("LOOTCRATE", currentGame.toString());
-                    }
-
-                } else {
-                    Log.e("LOOTCRATE", "Game details fetch failed for ID: " + gameId);
+                    });
                 }
             }
+
 
             @Override
             public void onFailure(Call<GameDetails> call, Throwable throwable) {
                 Log.e("LOOTCRATE", "Game details fetch error: " + throwable.getMessage());
             }
+        });
+    }
+
+    private void loadSavedGames() {
+        LootCrateDatabase.getDatabaseWriteExecutor().execute(() -> {//Get all games from db and loads it before grabbing new ones from api
+            List<Game> savedGames = repository.getAllGames();
+
+            if(savedGames != null) {
+                gameList.addAll(savedGames);
+
+                runOnUiThread(() -> {
+                    if(!gameList.isEmpty()) {
+                        displayNextGame();
+                    } else {
+                        fetchGamesList();
+                    }
+                });
+            }
+
         });
     }
 
@@ -176,7 +189,7 @@ public class LandingPageActivity extends AppCompatActivity {
     private void displayNextGame() {
         //Runs on background thread so Activity doesn't crash grabbing swipe
 
-        LootCrateDatabase.getDatabaseWriteExecutor().execute(() -> {
+        LootCrateDatabase.getDatabaseWriteExecutor().execute(() -> {//Display only if user has not swiped else remove from list
             while (!gameList.isEmpty()) {
                 Game next = gameList.peek();
                 Swipe swipe = repository.getLikeDislikeForUserAndGame(user.getId(), next.getId());
@@ -191,8 +204,8 @@ public class LandingPageActivity extends AppCompatActivity {
 
             runOnUiThread(() -> {
                 Toast.makeText(this, "Loading more games...", Toast.LENGTH_SHORT).show();
-            });
                 loadGames();
+            });
         });
 
     }
@@ -225,6 +238,7 @@ public class LandingPageActivity extends AppCompatActivity {
             this.user = user;
             if (user != null) {
                 profileButton();
+                loadSavedGames();//load games from db before adding more from api
             }
         });
     }
