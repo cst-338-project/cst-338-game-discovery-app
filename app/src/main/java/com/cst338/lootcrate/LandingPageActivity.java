@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 
 import com.bumptech.glide.Glide;
+import com.cst338.lootcrate.database.LootCrateDatabase;
 import com.cst338.lootcrate.database.LootCrateRepository;
 import com.cst338.lootcrate.database.entities.Game;
 import com.cst338.lootcrate.database.entities.Swipe;
@@ -27,7 +28,6 @@ import com.cst338.lootcrate.retroFit.GamesResponse;
 import com.cst338.lootcrate.retroFit.RAWGApiService;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import retrofit2.Call;
@@ -45,7 +45,7 @@ public class LandingPageActivity extends AppCompatActivity {
     private final int LOGGED_OUT = -1;
     private User user;
     private ArrayList<Game> gameList = new ArrayList<>();
-    private int swipeCount = 0; // Once swipe count is greater than 10, reset back to 0, increment page, and query 10 more games from API
+    private int currIndex = 1;
     private int page = 1;
 
 
@@ -81,7 +81,9 @@ public class LandingPageActivity extends AppCompatActivity {
                     List<APIGame> games = response.body().getResults();
                     for (APIGame game : games) {
                         int id = game.getId();
-                        fetchGameDetails(id);
+                        if(!containsGame(id)) {
+                            fetchGameDetails(id);
+                        }
                     }
                 } else {
                     Log.e("API Error", "Response not successful");
@@ -107,23 +109,25 @@ public class LandingPageActivity extends AppCompatActivity {
             public void onResponse(Call<GameDetails> call, Response<GameDetails> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     GameDetails details = response.body();
-                    Game currentGame = new Game(
-                            details.getId(),
-                            details.getWebsite(),
-                            details.getReleased(),
-                            details.getBackgroundImage(),
-                            details.getGenre(),
-                            details.getDescription(),
-                            details.getName()
-                    );
-                    gameList.add(currentGame);
-                    repository.insertGame(currentGame);
 
-                    if(gameList.size() == 1) {
-                        displayGame(currentGame);
+                    if(!containsGame(details.getId())) {
+                        Game currentGame = new Game(
+                                details.getId(),
+                                details.getWebsite(),
+                                details.getReleased(),
+                                details.getBackgroundImage(),
+                                details.getGenre(),
+                                details.getDescription(),
+                                details.getName()
+                        );
+                        gameList.add(currentGame);
+                        repository.insertGame(currentGame);
+                        if (gameList.size() == 1) {
+                            displayGame(currentGame);
+                        }
+                        Log.d("LOOTCRATE", currentGame.toString());
                     }
 
-                    Log.d("LOOTCRATE", currentGame.toString());
                 } else {
                     Log.e("LOOTCRATE", "Game details fetch failed for ID: " + gameId);
                 }
@@ -136,6 +140,15 @@ public class LandingPageActivity extends AppCompatActivity {
         });
     }
 
+    private boolean containsGame(int id) {
+        for(Game game: gameList) {
+            if(game.getId() == id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void displayGame(Game game) {
         //Loads game image into gameImage
         Glide.with(this)
@@ -145,19 +158,38 @@ public class LandingPageActivity extends AppCompatActivity {
         binding.gamePrice.setText(game.getReleased());
     }
 
-
     private void displayNextGame() {
-        swipeCount++;
+        //Runs on background thread so Activity doesn't crash grabbing swipe
+        LootCrateDatabase.databaseWriteExecutor.execute(() -> {
+            while (currIndex < gameList.size()) {
+                Game next = gameList.get(currIndex);
+                Swipe swipe = repository.getLikeDislikeForUserAndGame(user.getId(), next.getId());
 
-        //Displays game and adds it to seenGames so same game won't display.
-        displayGame(gameList.get(swipeCount));
+                if (swipe == null) {
+                    currIndex++;
+                    runOnUiThread(() -> displayGame(next));
+                    return;
+                } else {
+                    currIndex++; // move forward if already swiped
+                }
 
-        //Fetches 10 more games when 5 games left to go through
-        if(gameList.size() - swipeCount <= 5) {
-            page++;
-            fetchGamesList();
-        }
+                if(gameList.size() - currIndex <= 5) {
+                    loadGames();
+                }
+            }
+
+            loadGames();
+            runOnUiThread(() -> Toast.makeText(this, "Loading more games...", Toast.LENGTH_SHORT).show());
+        });
+
     }
+
+    private void loadGames() {
+        page++;
+        fetchGamesList();
+    }
+
+
     private void loginUser(Bundle savedInstanceState) {
         //checked shared pref for logged in user
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.preference_file_key),
@@ -204,7 +236,7 @@ public class LandingPageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //TODO: Wire dislike button
                 Toast.makeText(LandingPageActivity.this, "Disliked", Toast.LENGTH_SHORT).show();
-                repository.insertSwipe(new Swipe(gameList.get(swipeCount).getId(), user.getId(),false));
+                repository.insertSwipe(new Swipe(gameList.get(currIndex).getId(), user.getId(),false));
                 displayNextGame();
             }
         });
@@ -216,7 +248,7 @@ public class LandingPageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //TODO: Wire like button
                 Toast.makeText(LandingPageActivity.this, "Liked", Toast.LENGTH_SHORT).show();
-                repository.insertSwipe(new Swipe(gameList.get(swipeCount).getId(), user.getId(),true));
+                repository.insertSwipe(new Swipe(gameList.get(currIndex).getId(), user.getId(),true));
                 displayNextGame();
 
             }

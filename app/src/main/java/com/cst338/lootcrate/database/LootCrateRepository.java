@@ -99,8 +99,9 @@ public class LootCrateRepository {
         }
         return hasUser;
     }
-    
-       
 
 
+    public Swipe getLikeDislikeForUserAndGame(int userId, int gameId) {
+        return swipeDAO.getLikeDislikeForUserAndGame(userId,gameId);
+    }
 }

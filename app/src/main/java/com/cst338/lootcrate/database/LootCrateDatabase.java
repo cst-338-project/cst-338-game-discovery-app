@@ -24,7 +24,7 @@ public abstract class LootCrateDatabase extends RoomDatabase {
     public static final String SWIPE_TABLE = "swipetable";
     private static volatile LootCrateDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
-    static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+    public static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     static LootCrateDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
