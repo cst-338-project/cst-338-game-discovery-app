@@ -44,6 +44,10 @@ public abstract class LootCrateDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
+    public static ExecutorService getDatabaseWriteExecutor() {
+        return databaseWriteExecutor;
+    }
+
     private static final RoomDatabase.Callback addDefaultUserValues = new RoomDatabase.Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {

@@ -20,4 +20,7 @@ public interface GameDAO {
 
     @Query("SELECT * FROM " + LootCrateDatabase.GAME_TABLE + " ORDER BY genre DESC")
     List<Game> getAllGames();
+
+    @Query("SELECT * FROM " + LootCrateDatabase.GAME_TABLE + " WHERE id = :gameId LIMIT 1")
+    Game getGameById(int gameId);
 }

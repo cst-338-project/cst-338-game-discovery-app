@@ -13,6 +13,7 @@ import com.cst338.lootcrate.database.entities.Swipe;
 import com.cst338.lootcrate.database.entities.User;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -99,8 +100,26 @@ public class LootCrateRepository {
         }
         return hasUser;
     }
-    
-       
 
 
+    public Swipe getLikeDislikeForUserAndGame(int userId, int gameId) {
+        return swipeDAO.getLikeDislikeForUserAndGame(userId,gameId);
+    }
+
+    public Game getGameById(int gameId) {
+        Future<Game> future = LootCrateDatabase.databaseWriteExecutor.submit(() ->
+                gameDAO.getGameById(gameId)
+        );
+        try {
+            future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            Log.i("LOOT", "Problem when getting game by id in repo");
+        }
+        return null;
+    }
+
+    public List<Game> getAllGames() {
+        return gameDAO.getAllGames();
+    }
 }
