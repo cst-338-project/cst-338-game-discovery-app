@@ -26,6 +26,9 @@ public class GameDetails {
     @SerializedName("genres")
     private ArrayList<APIGenre> genres;
 
+    @SerializedName("metacritic")
+    private int metacritic;
+
     public int getId() {
         return id;
     }
@@ -53,4 +56,6 @@ public class GameDetails {
     public String getGenre() {
         return genres.get(0).name;
     }
+
+    public int getMetacritic() { return metacritic; }
 }
