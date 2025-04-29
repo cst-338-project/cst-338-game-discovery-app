@@ -28,6 +28,7 @@ import com.cst338.lootcrate.retroFit.GamesResponse;
 import com.cst338.lootcrate.retroFit.RAWGApiService;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
@@ -45,7 +46,7 @@ public class LandingPageActivity extends AppCompatActivity {
     private int loggedInUserId = -1;
     private final int LOGGED_OUT = -1;
     private User user;
-    private ArrayList<Game> gameList = new ArrayList<>();
+    private LinkedList<Game> gameList = new LinkedList<>();
     private int currIndex = 1;
     private int page = 1;
 
@@ -57,7 +58,7 @@ public class LandingPageActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         repository = LootCrateRepository.getRepository(getApplication());
-        
+
         // API
         apiService = APIClient.getClient().create(RAWGApiService.class);
         fetchGamesList();
@@ -82,7 +83,7 @@ public class LandingPageActivity extends AppCompatActivity {
                     List<APIGame> games = response.body().getResults();
                     for (APIGame game : games) {
                         int id = game.getId();
-                        if(!containsGame(id)) {
+                        if (!containsGame(id)) {
                             fetchGameDetails(id);
                         }
                     }
@@ -111,7 +112,7 @@ public class LandingPageActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     GameDetails details = response.body();
 
-                    if(!containsGame(details.getId())) {
+                    if (!containsGame(details.getId())) {
                         Game currentGame = new Game(
                                 details.getId(),
                                 details.getWebsite(),
@@ -126,6 +127,9 @@ public class LandingPageActivity extends AppCompatActivity {
                         if (gameList.size() == 1) {
                             displayGame(currentGame);
                         }
+                        Log.d("GAME_LIST", "Current size: " + gameList.size());
+                        Log.d("GAME_LIST", currentGame.getTitle() + " - ID: " + currentGame.getId());
+
                         Log.d("LOOTCRATE", currentGame.toString());
                     }
 
@@ -142,45 +146,53 @@ public class LandingPageActivity extends AppCompatActivity {
     }
 
     private boolean containsGame(int id) {
-        for(Game game: gameList) {
-            if(game.getId() == id) {
+        for (Game game : gameList) {
+            if (game.getId() == id) {
                 return true;
             }
         }
-        return false;
+        return repository.getGameById(id) != null;
     }
 
     private void displayGame(Game game) {
+        //Disable buttons to avoid crash
+        binding.likeButton.setEnabled(false);
+        binding.dislikeButton.setEnabled(false);
+
         //Loads game image into gameImage
         Glide.with(this)
                 .load(game.getImageUrl())
                 .into(binding.gameImage);
         binding.gameTitle.setText(game.getTitle());
         binding.gamePrice.setText(game.getReleased());
+
+        //enables button after delay to avoid crash
+        new android.os.Handler(getMainLooper()).postDelayed(() -> {
+            binding.likeButton.setEnabled(true);
+            binding.dislikeButton.setEnabled(true);
+        }, 1000);
     }
 
     private void displayNextGame() {
         //Runs on background thread so Activity doesn't crash grabbing swipe
+
         LootCrateDatabase.getDatabaseWriteExecutor().execute(() -> {
-            while (currIndex < gameList.size()) {
-                Game next = gameList.get(currIndex);
+            while (!gameList.isEmpty()) {
+                Game next = gameList.peek();
                 Swipe swipe = repository.getLikeDislikeForUserAndGame(user.getId(), next.getId());
 
                 if (swipe == null) {
-                    currIndex++;
                     runOnUiThread(() -> displayGame(next));
                     return;
                 } else {
-                    currIndex++; // move forward if already swiped
-                }
-
-                if(gameList.size() - currIndex <= 5) {
-                    loadGames();
+                    gameList.poll(); // removes/skips seen game
                 }
             }
 
-            loadGames();
-            runOnUiThread(() -> Toast.makeText(this, "Loading more games...", Toast.LENGTH_SHORT).show());
+            runOnUiThread(() -> {
+                Toast.makeText(this, "Loading more games...", Toast.LENGTH_SHORT).show();
+            });
+                loadGames();
         });
 
     }
@@ -197,13 +209,13 @@ public class LandingPageActivity extends AppCompatActivity {
                 Context.MODE_PRIVATE);
 
         loggedInUserId = sharedPreferences.getInt(getString(R.string.preference_userId_key), LOGGED_OUT);
-        if(loggedInUserId == LOGGED_OUT & savedInstanceState != null && savedInstanceState.containsKey(SAVED_INSTANCE_STATE_USERID_KEY)) {
+        if (loggedInUserId == LOGGED_OUT & savedInstanceState != null && savedInstanceState.containsKey(SAVED_INSTANCE_STATE_USERID_KEY)) {
             loggedInUserId = savedInstanceState.getInt(SAVED_INSTANCE_STATE_USERID_KEY, LOGGED_OUT);
         }
-        if(loggedInUserId == LOGGED_OUT) {
+        if (loggedInUserId == LOGGED_OUT) {
             loggedInUserId = getIntent().getIntExtra(LANDING_PAGE_ACTIVITY_USER_ID, LOGGED_OUT);
         }
-        if(loggedInUserId == LOGGED_OUT) {
+        if (loggedInUserId == LOGGED_OUT) {
             Intent intent = MainActivity.mainActivityIntentFactory(getApplicationContext(), LOGGED_OUT);
             startActivity(intent);
         }
@@ -223,6 +235,7 @@ public class LandingPageActivity extends AppCompatActivity {
         outState.putInt(SAVED_INSTANCE_STATE_USERID_KEY, loggedInUserId);
         updateSharedPreferences();
     }
+
     private void updateSharedPreferences() {
         SharedPreferences sharedPreferences = getApplication().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor sharedPrefEditor = sharedPreferences.edit();
@@ -235,9 +248,15 @@ public class LandingPageActivity extends AppCompatActivity {
         binding.dislikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: Wire dislike button
+                Game currGame = gameList.peek(); //Gives currGame without removing
+                if(currGame == null) {
+                    return;
+                }
+
+                Log.d("SWIPE", "User swiped on game " + currGame.getTitle());
+                repository.insertSwipe(new Swipe(currGame.getId(), user.getId(), false));
+                gameList.poll(); //Removes currGame from list
                 Toast.makeText(LandingPageActivity.this, "Disliked", Toast.LENGTH_SHORT).show();
-                repository.insertSwipe(new Swipe(gameList.get(currIndex).getId(), user.getId(),false));
                 displayNextGame();
             }
         });
@@ -248,13 +267,20 @@ public class LandingPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //TODO: Wire like button
+                Game currGame = gameList.peek();
+                if(currGame == null) {
+                    return;
+                }
+                Log.d("SWIPE", "User swiped on game " + currGame.getTitle());
+                repository.insertSwipe(new Swipe(currGame.getId(), user.getId(), true));
+                gameList.poll();
                 Toast.makeText(LandingPageActivity.this, "Liked", Toast.LENGTH_SHORT).show();
-                repository.insertSwipe(new Swipe(gameList.get(currIndex).getId(), user.getId(),true));
                 displayNextGame();
 
             }
         });
     }
+
     private void profileButton() {
         if (user != null) {
             if (user.isAdmin()) {
@@ -272,6 +298,7 @@ public class LandingPageActivity extends AppCompatActivity {
             }
         });
     }
+
     static Intent landingIntentFactory(Context context, int userId) {
         Intent intent = new Intent(context, LandingPageActivity.class);
         intent.putExtra(LANDING_PAGE_ACTIVITY_USER_ID, userId);

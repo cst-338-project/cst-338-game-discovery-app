@@ -104,4 +104,17 @@ public class LootCrateRepository {
     public Swipe getLikeDislikeForUserAndGame(int userId, int gameId) {
         return swipeDAO.getLikeDislikeForUserAndGame(userId,gameId);
     }
+
+    public Game getGameById(int gameId) {
+        Future<Game> future = LootCrateDatabase.databaseWriteExecutor.submit(() ->
+                gameDAO.getGameById(gameId)
+        );
+        try {
+            future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            Log.i("LOOT", "Problem when getting game by id in repo");
+        }
+        return null;
+    }
 }
