@@ -14,6 +14,7 @@
         android:layout_height="0dp"
         android:layout_margin="16dp"
         android:background="@color/black"
+        android:scaleType="centerCrop"
         app:layout_constraintTop_toBottomOf="@id/profileButton"
         app:layout_constraintBottom_toTopOf="@id/infoBox"
         app:layout_constraintStart_toStartOf="parent"

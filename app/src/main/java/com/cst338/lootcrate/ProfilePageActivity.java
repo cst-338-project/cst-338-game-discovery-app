@@ -1,6 +1,7 @@
 package com.cst338.lootcrate;
 
 import static com.cst338.lootcrate.LandingPageActivity.landingIntentFactory;
+import static com.cst338.lootcrate.LikedGamesActivity.likedGamesIntentFactory;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -89,7 +90,8 @@ public class ProfilePageActivity extends AppCompatActivity {
         binding.likedGames.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ProfilePageActivity.this, "Liked Games", Toast.LENGTH_SHORT).show();
+                Intent intent = LikedGamesActivity.likedGamesIntentFactory(getApplicationContext(), loggedInUserId);
+                startActivity(intent);
             }
         });
     }
@@ -98,7 +100,8 @@ public class ProfilePageActivity extends AppCompatActivity {
         binding.dislikedGames.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ProfilePageActivity.this, "Disliked Games", Toast.LENGTH_SHORT).show();
+                Intent intent = DislikedGamesActivity.dislikedGamesIntentFactory(getApplicationContext(), loggedInUserId);
+                startActivity(intent);
             }
         });
     }

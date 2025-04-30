@@ -1,13 +1,15 @@
 package com.cst338.lootcrate.database.entities;
 
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import com.cst338.lootcrate.database.LootCrateDatabase;
 
 import java.util.Objects;
 
-@Entity(tableName = LootCrateDatabase.SWIPE_TABLE)
+@Entity(tableName = LootCrateDatabase.SWIPE_TABLE,
+        indices = {@Index(value = {"userId", "gameId"}, unique = true)})
 public class Swipe {
 
     @PrimaryKey(autoGenerate = true)

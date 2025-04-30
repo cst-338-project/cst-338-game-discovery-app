@@ -8,20 +8,27 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.cst338.lootcrate.database.entities.Game;
+import com.cst338.lootcrate.database.entities.Swipe;
 import com.cst338.lootcrate.database.entities.User;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 public class LootCrateRepository {
     private final UserDAO userDAO;
+    private final GameDAO gameDAO;
+    private final SwipeDAO swipeDAO;
     private static LootCrateRepository repository;
 
     public LootCrateRepository(Application application) {
         LootCrateDatabase db = LootCrateDatabase.getDatabase(application);
         this.userDAO = db.userDAO();
+        this.gameDAO = db.gameDAO();
+        this.swipeDAO = db.swipeDAO();
     }
 
     public static LootCrateRepository getRepository(Application application) {
@@ -55,6 +62,21 @@ public class LootCrateRepository {
         });
     }
 
+    public void insertGame(Game... game) {
+        LootCrateDatabase.databaseWriteExecutor.execute(()->
+        {
+            gameDAO.insert(game);
+        });
+    }
+
+    public void insertSwipe(Swipe swipe) {
+        LootCrateDatabase.databaseWriteExecutor.execute(()->
+        {
+            swipeDAO.insert(swipe);
+        });
+    }
+
+
     public LiveData<User> getUserByUserName(String username) {
         return userDAO.getUserByUserName(username);
     }
@@ -78,8 +100,34 @@ public class LootCrateRepository {
         }
         return hasUser;
     }
-    
-       
 
 
+    public Swipe getLikeDislikeForUserAndGame(int userId, int gameId) {
+        return swipeDAO.getLikeDislikeForUserAndGame(userId,gameId);
+    }
+
+    public Game getGameById(int gameId) {
+        Future<Game> future = LootCrateDatabase.databaseWriteExecutor.submit(() ->
+                gameDAO.getGameById(gameId)
+        );
+        try {
+            future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            Log.i("LOOT", "Problem when getting game by id in repo");
+        }
+        return null;
+    }
+
+    public List<Game> getAllGames() {
+        return gameDAO.getAllGames();
+    }
+
+    public LiveData<List<Game>> getAllLikedGamesByUserId(int userId) {
+        return gameDAO.getAllLikedGamesByUserId(userId);
+    }
+
+    public LiveData<List<Game>> getAllDislikedGamesByUserId(int userId) {
+        return gameDAO.getAllDislikedGamesByUserId(userId);
+    }
 }

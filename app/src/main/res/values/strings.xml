@@ -13,4 +13,9 @@
     <string name="confirm_password">Confirm Password:</string>
     <string name="preference_file_key">jnPreferenceFileNameLootCrate</string>
     <string name="preference_userId_key">jnPreferenceUserIdKeyLootCrate</string>
+    <string name="back">Back</string>
+    <string name="your_liked_games">Your Liked Games</string>
+    <string name="gameimage">gameImage</string>
+    <string name="remove_game">Remove Game</string>
+    <string name="your_disliked_games">Your Disliked Games</string>
 </resources>
