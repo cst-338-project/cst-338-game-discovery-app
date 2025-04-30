@@ -120,8 +120,12 @@ public class LandingPageActivity extends AppCompatActivity {
                                     details.getBackgroundImage(),
                                     details.getGenre(),
                                     details.getDescription(),
-                                    details.getName()
+                                    details.getName(),
+                                    details.getMetacritic()
                             );
+
+                            Log.d("LOOTCRATE", currentGame.toString());
+
                             repository.insertGame(currentGame);
                             gameList.add(currentGame);
 

@@ -11,7 +11,7 @@ import java.util.Objects;
 
 @Entity(tableName = LootCrateDatabase.GAME_TABLE)
 public class Game {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     private int id;
     private String title;
     private String description;
@@ -19,8 +19,9 @@ public class Game {
     private String imageUrl;
     private String released;
     private String website;
+    private int metacritic;
 
-    public Game(int id, String website, String released, String imageUrl, String genre, String description, String title) {
+    public Game(int id, String website, String released, String imageUrl, String genre, String description, String title, int metacritic) {
         this.id = id;
         this.website = website;
         this.released = released;
@@ -28,6 +29,7 @@ public class Game {
         this.genre = genre;
         this.description = description;
         this.title = title;
+        this.metacritic = metacritic;
     }
 
     public String getImageUrl() {
@@ -44,6 +46,7 @@ public class Game {
                 ", genre=" + genre +
                 ", imageURL='" + imageUrl + '\'' +
                 ", website=" + website + '\'' +
+                ", metacritic=" + metacritic + '\'' +
                 '}';
     }
 
@@ -51,12 +54,16 @@ public class Game {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Game game = (Game) o;
-        return id == game.id && Objects.equals(title, game.title) && Objects.equals(description, game.description) && Objects.equals(genre, game.genre) && Objects.equals(imageUrl, game.imageUrl) && Objects.equals(released, game.released) && Objects.equals(website, game.website);
+        return id == game.id && metacritic == game.metacritic && Objects.equals(title, game.title) && Objects.equals(description, game.description) && Objects.equals(genre, game.genre) && Objects.equals(imageUrl, game.imageUrl) && Objects.equals(released, game.released) && Objects.equals(website, game.website);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, genre, imageUrl, released, website);
+        return Objects.hash(id, title, description, genre, imageUrl, released, website, metacritic);
+    }
+
+    public int getMetacritic() {
+        return metacritic;
     }
 
     public int getId() {

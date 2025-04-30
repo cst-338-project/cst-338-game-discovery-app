@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="82dp">
+
+            <ImageView
+                android:id="@+id/gameBackgroundImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.40"
+                android:clipToOutline="true"
+                android:contentDescription="@string/gameimage"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/gameTitleText"
+                android:layout_width="221dp"
+                android:layout_height="58dp"
+                android:layout_marginStart="16dp"
+                android:padding="10dp"
+                android:text=""
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/gameBackgroundImage"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Game Title" />
+
+
+            <LinearLayout
+                android:layout_width="120dp"
+                android:layout_height="42dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/gameTitleText"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="242dp"
+                tools:layout_editor_absoluteY="20dp">
+
+                <ImageView
+                    android:id="@+id/rowButton"
+                    android:layout_width="44dp"
+                    android:layout_height="43dp" />
+
+                <TextView
+                    android:id="@+id/rowText"
+                    android:layout_width="73dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text=""
+                    tools:text="Temp"/>
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

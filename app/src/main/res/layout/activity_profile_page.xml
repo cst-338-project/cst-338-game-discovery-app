@@ -10,17 +10,17 @@
 
     <Button
         android:id="@+id/likedGames"
-        android:layout_width="match_parent"
-        android:layout_height="100dip"
+        android:layout_width="315dp"
+        android:layout_height="80dp"
         android:layout_margin="16dip"
         android:layout_marginTop="196dp"
         android:background="@drawable/button_border"
+        android:backgroundTint="@color/blue"
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center"
         android:text="Liked Games"
         android:textColor="@color/black"
         android:textSize="32sp"
-        app:cornerRadius="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,8 +29,8 @@
 
     <Button
         android:id="@+id/dislikedGames"
-        android:layout_width="match_parent"
-        android:layout_height="100dip"
+        android:layout_width="315dp"
+        android:layout_height="80dp"
         android:layout_margin="16dip"
         android:layout_marginBottom="156dp"
         android:background="@drawable/button_border"
@@ -48,8 +48,8 @@
 
     <Button
         android:id="@+id/viewAnalytics"
-        android:layout_width="match_parent"
-        android:layout_height="100dip"
+        android:layout_width="315dp"
+        android:layout_height="80dp"
         android:layout_margin="16dip"
         android:layout_marginBottom="156dp"
         android:background="@drawable/button_border"
