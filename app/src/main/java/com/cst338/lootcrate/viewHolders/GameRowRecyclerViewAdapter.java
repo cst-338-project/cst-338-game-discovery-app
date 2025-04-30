@@ -1,6 +1,7 @@
 package com.cst338.lootcrate.viewHolders;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -25,16 +26,20 @@ public class GameRowRecyclerViewAdapter extends RecyclerView.Adapter<GameRowRecy
     @NonNull
     @Override
     public GameRowRecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.game_row, parent, false);
+        return new GameRowRecyclerViewAdapter.MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull GameRowRecyclerViewAdapter.MyViewHolder holder, int position) {
         holder.gameTitle.setText(gameModels.get(position).getTitle());
         holder.rowText.setText(gameModels.get(position).getButtonText());
+        holder.rowButton.setImageResource(gameModels.get(position).getButtonImage());
 
-        holder.gameImage.setImageResource(gameModels.get(position).getImage());
-
+        Glide.with(context)
+                .load(gameModels.get(position).getImage())
+                .into(holder.gameImage);
 
     }
 
