@@ -52,6 +52,10 @@ public class LikedGamesActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // TODO: Send user to game details card when clicking on a game
+
+        // TODO: Move game to dislikes when user clicks remove
     }
 
     private void getGameModels() {
