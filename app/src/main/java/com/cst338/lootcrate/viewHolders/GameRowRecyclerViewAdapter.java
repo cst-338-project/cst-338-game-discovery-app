@@ -62,8 +62,6 @@ public class GameRowRecyclerViewAdapter extends RecyclerView.Adapter<GameRowRecy
             rowButton = itemView.findViewById(R.id.rowButton);
             gameTitle = itemView.findViewById(R.id.gameTitleText);
             gameImage = itemView.findViewById(R.id.gameBackgroundImage);
-
-
         }
     }
 }

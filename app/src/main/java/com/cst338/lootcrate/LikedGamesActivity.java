@@ -8,17 +8,21 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.cst338.lootcrate.database.LootCrateRepository;
 import com.cst338.lootcrate.database.entities.Game;
 import com.cst338.lootcrate.databinding.ActivityLikedGamesBinding;
 import com.cst338.lootcrate.viewHolders.GameRowModel;
+import com.cst338.lootcrate.viewHolders.GameRowRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class LikedGamesActivity extends AppCompatActivity {
     ActivityLikedGamesBinding binding;
+    GameRowRecyclerViewAdapter adapter;
     private static final String LIKED_GAMES_ACTIVITY_USER_ID = "com.cst338.lootcrate.LIKED_GAMES_ACTIVITY_USER_ID";
     private LootCrateRepository repository;
     ArrayList<GameRowModel> gameModels = new ArrayList<GameRowModel>();
@@ -30,11 +34,16 @@ public class LikedGamesActivity extends AppCompatActivity {
         binding = ActivityLikedGamesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
         repository = LootCrateRepository.getRepository(getApplication());
         userId = getIntent().getIntExtra(LIKED_GAMES_ACTIVITY_USER_ID, -1);
 
         getGameModels();
+
+        // Recycler View
+        RecyclerView recyclerView = binding.likedGamesRecyclerView;
+        adapter = new GameRowRecyclerViewAdapter(this, gameModels);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         binding.likedGamesBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,6 +72,8 @@ public class LikedGamesActivity extends AppCompatActivity {
                 );
                 gameModels.add(rowModel);
             }
+
+            adapter.notifyDataSetChanged();
         });
     }
 

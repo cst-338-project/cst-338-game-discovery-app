@@ -35,12 +35,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/likedGamesRecyclerView"
-        android:layout_width="368dp"
-        android:layout_height="503dp"
+        android:layout_width="379dp"
+        android:layout_height="561dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/likedGamesTextView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

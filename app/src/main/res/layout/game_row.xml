@@ -3,16 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="387dp"
-        android:layout_height="80dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:cardCornerRadius="25dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -22,7 +24,7 @@
                 android:id="@+id/gameBackgroundImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:alpha="0.65"
+                android:alpha="0.40"
                 android:clipToOutline="true"
                 android:contentDescription="@string/gameimage"
                 android:scaleType="centerCrop"
@@ -40,7 +42,7 @@
                 android:text=""
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/likedGameBackgroundImage"
+                app:layout_constraintStart_toStartOf="@+id/gameBackgroundImage"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Game Title" />
 
@@ -51,7 +53,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/likedGameTitleText"
+                app:layout_constraintStart_toEndOf="@id/gameTitleText"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="242dp"
                 tools:layout_editor_absoluteY="20dp">
