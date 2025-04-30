@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".GameDetailsActivity">
+
+    <TextView
+        android:id="@+id/gameDetailsTitleTextView"
+        android:layout_width="409dp"
+        android:layout_height="85dp"
+        android:gravity="center"
+        android:text="Game Title Goes Here"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/gameDetailsCoverImageView"
+        android:layout_width="406dp"
+        android:layout_height="200dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gameDetailsTitleTextView"
+        app:srcCompat="@android:drawable/ic_menu_gallery" />
+
+    <TextView
+        android:id="@+id/gameDetailsGenreTextView"
+        android:layout_width="249dp"
+        android:layout_height="55dp"
+        android:gravity="center"
+        android:text="Fantasy RPG"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/gameDetailsMetacriticScoreTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gameDetailsCoverImageView" />
+
+    <TextView
+        android:id="@+id/gameDetailsMetacriticScoreTextView"
+        android:layout_width="162dp"
+        android:layout_height="58dp"
+        android:gravity="center"
+        android:text="$59.99"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gameDetailsCoverImageView" />
+
+    <ScrollView
+        android:id="@+id/gameDetailsDescriptionScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gameDetailsGenreTextView">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/gameDetailsDescriptionTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10sp"
+                android:text="Game Description goes here. Game Description goes here. Game Description goes here. Game Description goes here. Game Description goes here. Game Description goes here.
+Game Description goes here.Game Description goes here.Game Description goes here.Game Description goes here."
+                android:textSize="25sp" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/gameDetailsLinksTextView"
+        android:layout_width="263dp"
+        android:layout_height="53dp"
+        android:text="Space for links?"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/gameDetailsBackButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gameDetailsDescriptionScrollView" />
+
+    <Button
+        android:id="@+id/gameDetailsBackButton"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:text="Back"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gameDetailsDescriptionScrollView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
