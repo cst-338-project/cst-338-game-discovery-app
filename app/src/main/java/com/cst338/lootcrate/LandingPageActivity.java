@@ -327,8 +327,7 @@ public class LandingPageActivity extends AppCompatActivity {
         binding.gameImage.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-//                Intent intent = GameDetailsActivity.gameDetailsIntentFactory(getApplicationContext(), gameList.get(currIndex).getId());
-                Intent intent = GameDetailsActivity.gameDetailsIntentFactory(getApplicationContext(), 28);
+                Intent intent = GameDetailsActivity.gameDetailsIntentFactory(getApplicationContext(), gameList.get(currIndex - 1).getId());
                 startActivity(intent);
                 return true;
             }
