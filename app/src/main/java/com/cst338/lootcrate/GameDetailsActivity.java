@@ -48,6 +48,7 @@ public class GameDetailsActivity extends AppCompatActivity {
                 .load(game.getImageUrl())
                 .into(binding.gameDetailsCoverImageView);
         binding.gameDetailsMetacriticScoreTextView.setText(String.valueOf("Metacritic: " + game.getMetacritic()));
+        binding.gameDetailsLinksTextView.setText(game.getWebsite());
 
     }
 
