@@ -324,6 +324,16 @@ public class LandingPageActivity extends AppCompatActivity {
         });
     }
 
+    private void gameDetailsPage(){
+        binding.gameImage.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent intent = GameDetailsActivity.gameDetailsIntentFactory(getApplicationContext(), gameList.get(currIndex).getId());
+                startActivity(intent);
+            }
+        });
+    }
+
     static Intent landingIntentFactory(Context context, int userId) {
         Intent intent = new Intent(context, LandingPageActivity.class);
         intent.putExtra(LANDING_PAGE_ACTIVITY_USER_ID, userId);
