@@ -19,6 +19,7 @@ public class GameDetailsActivity extends AppCompatActivity {
 
     private LootCrateRepository repository;
     private int gameId = 1;
+    private int userId = 1;
     private Game game;
 
     @Override
@@ -32,12 +33,12 @@ public class GameDetailsActivity extends AppCompatActivity {
 
        setInfo();
        //TODO: Use userId for back button
-//       binding.gameDetailsBackButton.setOnClickListener(new View.OnClickListener() {
-//           @Override
-//           public void onClick(View v) {
-//               startActivity(LandingPageActivity.landingIntentFactory(getApplicationContext(), user.getId()));
-//           }
-//       });
+       binding.gameDetailsBackButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               startActivity(LandingPageActivity.landingIntentFactory(getApplicationContext(), userId));
+           }
+       });
     }
 
     public void setInfo(){
@@ -52,9 +53,10 @@ public class GameDetailsActivity extends AppCompatActivity {
 
     }
 
-    static Intent gameDetailsIntentFactory(Context context, int gameId){
+    static Intent gameDetailsIntentFactory(Context context, int gameId, int userId){
         Intent intent = new Intent(context, GameDetailsActivity.class);
         intent.putExtra("GameId", gameId);
+        intent.putExtra("UserId", userId);
         return intent;
     }
 }
