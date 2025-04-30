@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 
 import com.cst338.lootcrate.database.LootCrateRepository;
 import com.cst338.lootcrate.database.entities.Game;
@@ -30,8 +31,7 @@ public class LikedGamesActivity extends AppCompatActivity {
 
         repository = LootCrateRepository.getRepository(getApplication());
         userId = getIntent().getIntExtra(LIKED_GAMES_ACTIVITY_USER_ID, -1);
-//        getGameModels();
-
+        getGameModels();
 
         binding.likedGamesBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,10 +47,12 @@ public class LikedGamesActivity extends AppCompatActivity {
             Log.d("LOOTCRATE", "Unable to fetch liked games. UserID is -1");
             return;
         }
-        List<Game> likedGames = repository.getAllLikedGamesByUserId(userId);
-        gameModels.addAll(likedGames);
 
+        LiveData<List<Game>> likedGamesObserver = repository.getAllLikedGamesByUserId(userId);
 
+        likedGamesObserver.observe(this, likedGames -> {
+            gameModels.addAll(likedGames);
+        });
     }
 
     static Intent likedGamesIntentFactory(Context context, int userId) {

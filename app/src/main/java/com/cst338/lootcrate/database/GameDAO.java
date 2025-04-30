@@ -1,5 +1,6 @@
 package com.cst338.lootcrate.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -28,11 +29,11 @@ public interface GameDAO {
             " JOIN " + LootCrateDatabase.GAME_TABLE + " ON " + LootCrateDatabase.GAME_TABLE + ".id = "
             + LootCrateDatabase.SWIPE_TABLE + ".gameId WHERE " + LootCrateDatabase.SWIPE_TABLE +
             ".userId = :userId AND " + LootCrateDatabase.SWIPE_TABLE + ".isLiked = 1")
-    List<Game> getAllLikedGamesByUserId(int userId);
+    LiveData<List<Game>> getAllLikedGamesByUserId(int userId);
 
     @Query("SELECT " + LootCrateDatabase.GAME_TABLE + ".* FROM " + LootCrateDatabase.SWIPE_TABLE +
             " JOIN " + LootCrateDatabase.GAME_TABLE + " ON " + LootCrateDatabase.GAME_TABLE + ".id = "
             + LootCrateDatabase.SWIPE_TABLE + ".gameId WHERE " + LootCrateDatabase.SWIPE_TABLE +
             ".userId = :userId AND " + LootCrateDatabase.SWIPE_TABLE + ".isLiked = 0")
-    List<Game> getAllDislikedGamesByUserId(int userId);
+    LiveData<List<Game>> getAllDislikedGamesByUserId(int userId);
 }
