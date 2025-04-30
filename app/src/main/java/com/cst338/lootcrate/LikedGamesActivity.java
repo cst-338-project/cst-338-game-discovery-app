@@ -12,6 +12,7 @@ import androidx.lifecycle.LiveData;
 import com.cst338.lootcrate.database.LootCrateRepository;
 import com.cst338.lootcrate.database.entities.Game;
 import com.cst338.lootcrate.databinding.ActivityLikedGamesBinding;
+import com.cst338.lootcrate.viewHolders.GameRowModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class LikedGamesActivity extends AppCompatActivity {
     ActivityLikedGamesBinding binding;
     private static final String LIKED_GAMES_ACTIVITY_USER_ID = "com.cst338.lootcrate.LIKED_GAMES_ACTIVITY_USER_ID";
     private LootCrateRepository repository;
-    ArrayList<Game> gameModels = new ArrayList<Game>();
+    ArrayList<GameRowModel> gameModels = new ArrayList<GameRowModel>();
     private int userId;
 
     @Override
@@ -29,8 +30,10 @@ public class LikedGamesActivity extends AppCompatActivity {
         binding = ActivityLikedGamesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
         repository = LootCrateRepository.getRepository(getApplication());
         userId = getIntent().getIntExtra(LIKED_GAMES_ACTIVITY_USER_ID, -1);
+
         getGameModels();
 
         binding.likedGamesBackButton.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +54,15 @@ public class LikedGamesActivity extends AppCompatActivity {
         LiveData<List<Game>> likedGamesObserver = repository.getAllLikedGamesByUserId(userId);
 
         likedGamesObserver.observe(this, likedGames -> {
-            gameModels.addAll(likedGames);
+            for (Game game : likedGames) {
+                GameRowModel rowModel = new GameRowModel(
+                        game.getTitle(),
+                        game.getImageUrl(),
+                        "Remove",
+                        R.drawable.baseline_remove_circle_24
+                );
+                gameModels.add(rowModel);
+            }
         });
     }
 

@@ -19,7 +19,7 @@
             android:layout_height="82dp">
 
             <ImageView
-                android:id="@+id/likedGameBackgroundImage"
+                android:id="@+id/gameBackgroundImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:alpha="0.65"
@@ -32,7 +32,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/likedGameTitleText"
+                android:id="@+id/gameTitleText"
                 android:layout_width="221dp"
                 android:layout_height="58dp"
                 android:layout_marginStart="16dp"
@@ -57,12 +57,12 @@
                 tools:layout_editor_absoluteY="20dp">
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/rowButton"
                     android:layout_width="44dp"
                     android:layout_height="43dp" />
 
                 <TextView
-                    android:id="@+id/removeFromLikedGamesText"
+                    android:id="@+id/rowText"
                     android:layout_width="73dp"
                     android:layout_height="match_parent"
                     android:gravity="center"

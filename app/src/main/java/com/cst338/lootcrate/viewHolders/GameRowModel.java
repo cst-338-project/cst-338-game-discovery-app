@@ -4,9 +4,9 @@ public class GameRowModel {
     private String title;
     private String image;
     private String buttonText;
-    private String buttonImage;
+    private int buttonImage;
 
-    public GameRowModel(String title, String image, String buttonText, String buttonImage) {
+    public GameRowModel(String title, String image, String buttonText, int buttonImage) {
         this.title = title;
         this.image = image;
         this.buttonText = buttonText;
@@ -25,7 +25,7 @@ public class GameRowModel {
         return buttonText;
     }
 
-    public String getButtonImage() {
+    public int getButtonImage() {
         return buttonImage;
     }
 }
