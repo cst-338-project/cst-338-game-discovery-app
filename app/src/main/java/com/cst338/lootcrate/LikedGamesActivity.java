@@ -71,7 +71,7 @@ public class LikedGamesActivity extends AppCompatActivity {
                 GameRowModel rowModel = new GameRowModel(
                         game.getTitle(),
                         game.getImageUrl(),
-                        "Remove",
+                        "Move to Dislikes",
                         R.drawable.baseline_remove_circle_24
                 );
                 gameModels.add(rowModel);
