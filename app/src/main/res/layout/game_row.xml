@@ -13,8 +13,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp">
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -24,7 +24,7 @@
                 android:id="@+id/gameBackgroundImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:alpha="0.40"
+                android:alpha="0.55"
                 android:clipToOutline="true"
                 android:contentDescription="@string/gameimage"
                 android:scaleType="centerCrop"
@@ -69,6 +69,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:text=""
+                    android:textStyle="bold"
                     tools:text="Temp"/>
 
             </LinearLayout>
