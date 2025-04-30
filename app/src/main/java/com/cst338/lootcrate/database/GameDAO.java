@@ -23,4 +23,16 @@ public interface GameDAO {
 
     @Query("SELECT * FROM " + LootCrateDatabase.GAME_TABLE + " WHERE id = :gameId LIMIT 1")
     Game getGameById(int gameId);
+
+    @Query("SELECT " + LootCrateDatabase.GAME_TABLE + ".* FROM " + LootCrateDatabase.SWIPE_TABLE +
+            " JOIN " + LootCrateDatabase.GAME_TABLE + " ON " + LootCrateDatabase.GAME_TABLE + ".id = "
+            + LootCrateDatabase.SWIPE_TABLE + ".gameId WHERE " + LootCrateDatabase.SWIPE_TABLE +
+            ".userId = :userId AND " + LootCrateDatabase.SWIPE_TABLE + ".isLiked = 1")
+    List<Game> getAllLikedGamesByUserId(int userId);
+
+    @Query("SELECT " + LootCrateDatabase.GAME_TABLE + ".* FROM " + LootCrateDatabase.SWIPE_TABLE +
+            " JOIN " + LootCrateDatabase.GAME_TABLE + " ON " + LootCrateDatabase.GAME_TABLE + ".id = "
+            + LootCrateDatabase.SWIPE_TABLE + ".gameId WHERE " + LootCrateDatabase.SWIPE_TABLE +
+            ".userId = :userId AND " + LootCrateDatabase.SWIPE_TABLE + ".isLiked = 0")
+    List<Game> getAllDislikedGamesByUserId(int userId);
 }
