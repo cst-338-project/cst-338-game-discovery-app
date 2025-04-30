@@ -64,6 +64,7 @@ public class LandingPageActivity extends AppCompatActivity {
 
         loggedInUserId = getIntent().getIntExtra(LANDING_PAGE_ACTIVITY_USER_ID, -1);
 
+
         loginUser(savedInstanceState);
         likeButton();
         dislikeButton();
