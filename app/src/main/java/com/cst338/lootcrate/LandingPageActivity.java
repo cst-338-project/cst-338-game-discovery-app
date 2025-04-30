@@ -27,10 +27,8 @@ import com.cst338.lootcrate.retroFit.GameDetails;
 import com.cst338.lootcrate.retroFit.GamesResponse;
 import com.cst338.lootcrate.retroFit.RAWGApiService;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -68,6 +66,7 @@ public class LandingPageActivity extends AppCompatActivity {
         loginUser(savedInstanceState);
         likeButton();
         dislikeButton();
+        gameDetailsPage();
     }
 
     /**
@@ -320,6 +319,17 @@ public class LandingPageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = ProfilePageActivity.profileIntentFactory(getApplicationContext(), loggedInUserId);
                 startActivity(intent);
+            }
+        });
+    }
+
+    private void gameDetailsPage(){
+        binding.gameImage.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent intent = GameDetailsActivity.gameDetailsIntentFactory(getApplicationContext(), gameList.get(currIndex - 1).getId(), loggedInUserId);
+                startActivity(intent);
+                return true;
             }
         });
     }
