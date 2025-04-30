@@ -111,7 +111,7 @@ public class LootCrateRepository {
                 gameDAO.getGameById(gameId)
         );
         try {
-            future.get();
+            return future.get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
             Log.i("LOOT", "Problem when getting game by id in repo");
