@@ -180,7 +180,7 @@ public class LandingPageActivity extends AppCompatActivity {
                 .load(game.getImageUrl())
                 .into(binding.gameImage);
         binding.gameTitle.setText(game.getTitle());
-        binding.gamePrice.setText(game.getReleased());
+        binding.gamePrice.setText(game.getReleased().split("-")[0]);
 
         //enables button after delay to avoid crash
         new android.os.Handler(getMainLooper()).postDelayed(() -> {
