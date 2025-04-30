@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.cst338.lootcrate.database.LootCrateRepository;
 import com.cst338.lootcrate.database.entities.Game;
+import com.cst338.lootcrate.databinding.ActivityDislikedGamesBinding;
 import com.cst338.lootcrate.databinding.ActivityLikedGamesBinding;
 import com.cst338.lootcrate.viewHolders.GameRowModel;
 import com.cst338.lootcrate.viewHolders.GameRowRecyclerViewAdapter;
@@ -20,32 +21,32 @@ import com.cst338.lootcrate.viewHolders.GameRowRecyclerViewAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LikedGamesActivity extends AppCompatActivity {
-    ActivityLikedGamesBinding binding;
+public class DislikedGamesActivity extends AppCompatActivity {
+    ActivityDislikedGamesBinding binding;
     GameRowRecyclerViewAdapter adapter;
-    private static final String LIKED_GAMES_ACTIVITY_USER_ID = "com.cst338.lootcrate.LIKED_GAMES_ACTIVITY_USER_ID";
+    private static final String DISLIKED_GAMES_ACTIVITY_USER_ID = "com.cst338.lootcrate.DISLIKED_GAMES_ACTIVITY_USER_ID";
     private LootCrateRepository repository;
-    ArrayList<GameRowModel> gameModels = new ArrayList<GameRowModel>();
+    ArrayList<GameRowModel> gameModels = new ArrayList<>();
     private int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityLikedGamesBinding.inflate(getLayoutInflater());
+        binding = ActivityDislikedGamesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         repository = LootCrateRepository.getRepository(getApplication());
-        userId = getIntent().getIntExtra(LIKED_GAMES_ACTIVITY_USER_ID, -1);
+        userId = getIntent().getIntExtra(DISLIKED_GAMES_ACTIVITY_USER_ID, -1);
 
-        getLikedGameModels();
+        getDislikedGameModels();
 
         // Recycler View
-        RecyclerView recyclerView = binding.likedGamesRecyclerView;
+        RecyclerView recyclerView = binding.dislikedGamesRecyclerView;
         adapter = new GameRowRecyclerViewAdapter(this, gameModels);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        binding.likedGamesBackButton.setOnClickListener(new View.OnClickListener() {
+        binding.dislikedGamesBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = ProfilePageActivity.profileIntentFactory(getApplicationContext(), userId);
@@ -55,24 +56,24 @@ public class LikedGamesActivity extends AppCompatActivity {
 
         // TODO: Send user to game details card when clicking on a game
 
-        // TODO: Move game to dislikes when user clicks remove
+        // TODO: Move game to likes when user clicks like
     }
 
-    private void getLikedGameModels() {
+    private void getDislikedGameModels() {
         if (userId == -1) {
             Log.d("LOOTCRATE", "Unable to fetch liked games. UserID is -1");
             return;
         }
 
-        LiveData<List<Game>> likedGamesObserver = repository.getAllLikedGamesByUserId(userId);
+        LiveData<List<Game>> likedGamesObserver = repository.getAllDislikedGamesByUserId(userId);
 
-        likedGamesObserver.observe(this, likedGames -> {
-            for (Game game : likedGames) {
+        likedGamesObserver.observe(this, dislikedGames -> {
+            for (Game game : dislikedGames) {
                 GameRowModel rowModel = new GameRowModel(
                         game.getTitle(),
                         game.getImageUrl(),
-                        "Remove",
-                        R.drawable.baseline_remove_circle_24
+                        "Add to Likes",
+                        R.drawable.baseline_add_circle_24
                 );
                 gameModels.add(rowModel);
             }
@@ -81,9 +82,9 @@ public class LikedGamesActivity extends AppCompatActivity {
         });
     }
 
-    static Intent likedGamesIntentFactory(Context context, int userId) {
-        Intent intent = new Intent(context, LikedGamesActivity.class);
-        intent.putExtra(LIKED_GAMES_ACTIVITY_USER_ID, userId);
+    static Intent dislikedGamesIntentFactory(Context context, int userId) {
+        Intent intent = new Intent(context, DislikedGamesActivity.class);
+        intent.putExtra(DISLIKED_GAMES_ACTIVITY_USER_ID, userId);
         return intent;
     }
 }
