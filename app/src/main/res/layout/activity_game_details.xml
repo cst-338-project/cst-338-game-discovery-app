@@ -67,9 +67,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="10sp"
-                android:text="Game Description goes here. Game Description goes here. Game Description goes here. Game Description goes here. Game Description goes here. Game Description goes here.
-Game Description goes here.Game Description goes here.Game Description goes here.Game Description goes here."
-                android:textSize="25sp" />
+                android:text="Game Description goes here"
+                android:textSize="20sp" />
 
 
         </LinearLayout>
@@ -80,7 +79,7 @@ Game Description goes here.Game Description goes here.Game Description goes here
         android:layout_width="263dp"
         android:layout_height="53dp"
         android:text="Space for links?"
-        android:textSize="20sp"
+        android:textSize="15sp"
         app:layout_constraintEnd_toStartOf="@+id/gameDetailsBackButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gameDetailsDescriptionScrollView" />
