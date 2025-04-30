@@ -64,7 +64,6 @@ public class LandingPageActivity extends AppCompatActivity {
 
         loggedInUserId = getIntent().getIntExtra(LANDING_PAGE_ACTIVITY_USER_ID, -1);
 
-
         loginUser(savedInstanceState);
         likeButton();
         dislikeButton();
@@ -120,8 +119,12 @@ public class LandingPageActivity extends AppCompatActivity {
                                     details.getBackgroundImage(),
                                     details.getGenre(),
                                     details.getDescription(),
-                                    details.getName()
+                                    details.getName(),
+                                    details.getMetacritic()
                             );
+
+                            Log.d("LOOTCRATE", currentGame.toString());
+
                             repository.insertGame(currentGame);
                             gameList.add(currentGame);
 
