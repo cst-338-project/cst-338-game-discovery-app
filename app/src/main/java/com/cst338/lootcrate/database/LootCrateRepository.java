@@ -122,4 +122,8 @@ public class LootCrateRepository {
     public List<Game> getAllGames() {
         return gameDAO.getAllGames();
     }
+
+    public List<Game> getAllLikedGamesByUserId(int userId) { return gameDAO.getAllLikedGamesByUserId(userId); }
+
+    public List<Game> getAllDislikedGamesByUserId(int userId) { return gameDAO.getAllDislikedGamesByUserId(userId); }
 }
