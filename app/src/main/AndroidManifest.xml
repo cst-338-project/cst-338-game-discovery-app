@@ -15,6 +15,9 @@
         android:theme="@style/Theme.LootCrate"
         tools:targetApi="31">
         <activity
+            android:name=".DislikedGamesActivity"
+            android:exported="false" />
+        <activity
             android:name=".LikedGamesActivity"
             android:exported="false" />
         <activity

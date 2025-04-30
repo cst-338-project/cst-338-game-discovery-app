@@ -90,7 +90,7 @@ public class ProfilePageActivity extends AppCompatActivity {
         binding.likedGames.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = likedGamesIntentFactory(getApplicationContext(), loggedInUserId);
+                Intent intent = LikedGamesActivity.likedGamesIntentFactory(getApplicationContext(), loggedInUserId);
                 startActivity(intent);
             }
         });
@@ -100,7 +100,8 @@ public class ProfilePageActivity extends AppCompatActivity {
         binding.dislikedGames.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ProfilePageActivity.this, "Disliked Games", Toast.LENGTH_SHORT).show();
+                Intent intent = DislikedGamesActivity.dislikedGamesIntentFactory(getApplicationContext(), loggedInUserId);
+                startActivity(intent);
             }
         });
     }
