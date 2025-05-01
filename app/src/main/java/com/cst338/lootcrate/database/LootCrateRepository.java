@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.cst338.lootcrate.database.entities.Game;
+import com.cst338.lootcrate.database.entities.GameAnalytics;
 import com.cst338.lootcrate.database.entities.Swipe;
 import com.cst338.lootcrate.database.entities.User;
 
@@ -130,4 +131,10 @@ public class LootCrateRepository {
     public LiveData<List<Game>> getAllDislikedGamesByUserId(int userId) {
         return gameDAO.getAllDislikedGamesByUserId(userId);
     }
+
+
+    public LiveData<List<GameAnalytics>> getGameAnalytics() {
+        return swipeDAO.getGameAnalyticsWithTitle();
+    }
+
 }
