@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.cst338.lootcrate.database.LootCrateRepository;
 import com.cst338.lootcrate.database.entities.Game;
 import com.cst338.lootcrate.databinding.ActivityLikedGamesBinding;
+import com.cst338.lootcrate.databinding.GameRowBinding;
 import com.cst338.lootcrate.viewHolders.GameRowModel;
 import com.cst338.lootcrate.viewHolders.GameRowRecyclerViewAdapter;
 import com.cst338.lootcrate.viewHolders.GameRowRecyclerViewInterface;
@@ -24,6 +25,8 @@ import java.util.List;
 
 public class LikedGamesActivity extends AppCompatActivity implements GameRowRecyclerViewInterface {
     ActivityLikedGamesBinding binding;
+
+    GameRowBinding gameRowBinding;
     GameRowRecyclerViewAdapter adapter;
     private static final String LIKED_GAMES_ACTIVITY_USER_ID = "com.cst338.lootcrate.LIKED_GAMES_ACTIVITY_USER_ID";
     private LootCrateRepository repository;
@@ -57,6 +60,11 @@ public class LikedGamesActivity extends AppCompatActivity implements GameRowRecy
         // TODO: Send user to game details card when clicking on a game
 
         // TODO: Move game to dislikes when user clicks remove
+
+
+
+
+
     }
 
     private void getLikedGameModels() {
