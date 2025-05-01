@@ -54,10 +54,6 @@ public class DislikedGamesActivity extends AppCompatActivity implements GameRowR
                 finish();
             }
         });
-
-        // TODO: Send user to game details card when clicking on a game
-
-        // TODO: Move game to likes when user clicks like
     }
 
     private void getDislikedGameModels() {
@@ -69,6 +65,7 @@ public class DislikedGamesActivity extends AppCompatActivity implements GameRowR
         LiveData<List<Game>> likedGamesObserver = repository.getAllDislikedGamesByUserId(userId);
 
         likedGamesObserver.observe(this, dislikedGames -> {
+            gameModels.clear();
             for (Game game : dislikedGames) {
                 GameRowModel rowModel = new GameRowModel(
                         game.getId(),
@@ -99,6 +96,9 @@ public class DislikedGamesActivity extends AppCompatActivity implements GameRowR
 
     @Override
     public void onButtonClick(int position) {
+        int gameId = gameModels.get(position).getId();
+        repository.updateGameLike(1, userId, gameId);
         Toast.makeText(DislikedGamesActivity.this, "Added to Likes", Toast.LENGTH_SHORT).show();
+
     }
 }

@@ -25,8 +25,6 @@ import java.util.List;
 
 public class LikedGamesActivity extends AppCompatActivity implements GameRowRecyclerViewInterface {
     ActivityLikedGamesBinding binding;
-
-    GameRowBinding gameRowBinding;
     GameRowRecyclerViewAdapter adapter;
     private static final String LIKED_GAMES_ACTIVITY_USER_ID = "com.cst338.lootcrate.LIKED_GAMES_ACTIVITY_USER_ID";
     private LootCrateRepository repository;
@@ -56,15 +54,6 @@ public class LikedGamesActivity extends AppCompatActivity implements GameRowRecy
                 finish();
             }
         });
-
-        // TODO: Send user to game details card when clicking on a game
-
-        // TODO: Move game to dislikes when user clicks remove
-
-
-
-
-
     }
 
     private void getLikedGameModels() {
@@ -76,6 +65,7 @@ public class LikedGamesActivity extends AppCompatActivity implements GameRowRecy
         LiveData<List<Game>> likedGamesObserver = repository.getAllLikedGamesByUserId(userId);
 
         likedGamesObserver.observe(this, likedGames -> {
+            gameModels.clear();
             for (Game game : likedGames) {
                 GameRowModel rowModel = new GameRowModel(
                         game.getId(),
@@ -106,6 +96,8 @@ public class LikedGamesActivity extends AppCompatActivity implements GameRowRecy
 
     @Override
     public void onButtonClick(int position) {
-        Toast.makeText(LikedGamesActivity.this, "Added to Dislikes", Toast.LENGTH_SHORT).show();
+        int gameId = gameModels.get(position).getId();
+        repository.updateGameLike(0, userId, gameId);
+        Toast.makeText(LikedGamesActivity.this, "Moved to Dislikes", Toast.LENGTH_SHORT).show();
     }
 }
