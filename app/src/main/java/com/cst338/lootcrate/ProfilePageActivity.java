@@ -81,7 +81,8 @@ public class ProfilePageActivity extends AppCompatActivity {
         binding.viewAnalytics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ProfilePageActivity.this, "View Analytics", Toast.LENGTH_SHORT).show();
+                Intent intent = AnalyticsActivity.analyticsIntentFactory(getApplicationContext(), loggedInUserId);
+                startActivity(intent);
             }
         });
     }
