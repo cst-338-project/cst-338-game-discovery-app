@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -55,6 +56,7 @@ public class GameRowRecyclerViewAdapter extends RecyclerView.Adapter<GameRowRecy
         ImageView rowButton;
         TextView gameTitle;
         TextView rowText;
+        LinearLayout gameRowButton;
 
         public MyViewHolder(@NonNull View itemView, GameRowRecyclerViewInterface gameRowRecyclerViewInterface) {
             super(itemView);
@@ -63,8 +65,9 @@ public class GameRowRecyclerViewAdapter extends RecyclerView.Adapter<GameRowRecy
             rowButton = itemView.findViewById(R.id.rowButton);
             gameTitle = itemView.findViewById(R.id.gameTitleText);
             gameImage = itemView.findViewById(R.id.gameBackgroundImage);
+            gameRowButton = itemView.findViewById(R.id.gameRowButton);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            gameImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (gameRowRecyclerViewInterface != null) {
@@ -76,6 +79,20 @@ public class GameRowRecyclerViewAdapter extends RecyclerView.Adapter<GameRowRecy
                     }
                 }
             });
+
+            gameRowButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (gameRowRecyclerViewInterface != null) {
+                        int pos = getAdapterPosition();
+
+                        if (pos != RecyclerView.NO_POSITION) {
+                            gameRowRecyclerViewInterface.onButtonClick(pos);
+                        }
+                    }
+                }
+            });
+
         }
     }
 }

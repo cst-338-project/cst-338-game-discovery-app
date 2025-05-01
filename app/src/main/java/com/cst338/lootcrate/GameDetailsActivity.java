@@ -36,7 +36,6 @@ public class GameDetailsActivity extends AppCompatActivity {
        binding.gameDetailsBackButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-//               startActivity(LandingPageActivity.landingIntentFactory(getApplicationContext(), userId));
                finish();
            }
        });

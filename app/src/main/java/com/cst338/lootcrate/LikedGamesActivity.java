@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
@@ -93,5 +94,10 @@ public class LikedGamesActivity extends AppCompatActivity implements GameRowRecy
         int gameId = gameModels.get(position).getId();
         Intent intent = GameDetailsActivity.gameDetailsIntentFactory(getApplicationContext(), gameId, userId);
         startActivity(intent);
+    }
+
+    @Override
+    public void onButtonClick(int position) {
+        Toast.makeText(LikedGamesActivity.this, "Added to Dislikes", Toast.LENGTH_SHORT).show();
     }
 }
