@@ -132,9 +132,14 @@ public class LootCrateRepository {
         return gameDAO.getAllDislikedGamesByUserId(userId);
     }
 
-
     public LiveData<List<GameAnalytics>> getGameAnalytics() {
         return swipeDAO.getGameAnalyticsWithTitle();
+    }
+
+    public void updateGameLike(int swipeType, int userId,  int gameId) {
+        LootCrateDatabase.databaseWriteExecutor.execute(() ->
+                swipeDAO.updateGameLike(swipeType, userId, gameId)
+        );
     }
 
 }

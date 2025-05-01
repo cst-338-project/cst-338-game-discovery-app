@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
@@ -17,14 +18,13 @@ import com.cst338.lootcrate.databinding.ActivityLikedGamesBinding;
 import com.cst338.lootcrate.databinding.GameRowBinding;
 import com.cst338.lootcrate.viewHolders.GameRowModel;
 import com.cst338.lootcrate.viewHolders.GameRowRecyclerViewAdapter;
+import com.cst338.lootcrate.viewHolders.GameRowRecyclerViewInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LikedGamesActivity extends AppCompatActivity {
+public class LikedGamesActivity extends AppCompatActivity implements GameRowRecyclerViewInterface {
     ActivityLikedGamesBinding binding;
-
-    GameRowBinding gameRowBinding;
     GameRowRecyclerViewAdapter adapter;
     private static final String LIKED_GAMES_ACTIVITY_USER_ID = "com.cst338.lootcrate.LIKED_GAMES_ACTIVITY_USER_ID";
     private LootCrateRepository repository;
@@ -44,26 +44,16 @@ public class LikedGamesActivity extends AppCompatActivity {
 
         // Recycler View
         RecyclerView recyclerView = binding.likedGamesRecyclerView;
-        adapter = new GameRowRecyclerViewAdapter(this, gameModels);
+        adapter = new GameRowRecyclerViewAdapter(this, gameModels, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         binding.likedGamesBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = ProfilePageActivity.profileIntentFactory(getApplicationContext(), userId);
-                startActivity(intent);
+                finish();
             }
         });
-
-        // TODO: Send user to game details card when clicking on a game
-
-        // TODO: Move game to dislikes when user clicks remove
-
-
-
-
-
     }
 
     private void getLikedGameModels() {
@@ -75,8 +65,10 @@ public class LikedGamesActivity extends AppCompatActivity {
         LiveData<List<Game>> likedGamesObserver = repository.getAllLikedGamesByUserId(userId);
 
         likedGamesObserver.observe(this, likedGames -> {
+            gameModels.clear();
             for (Game game : likedGames) {
                 GameRowModel rowModel = new GameRowModel(
+                        game.getId(),
                         game.getTitle(),
                         game.getImageUrl(),
                         "Move to Dislikes",
@@ -93,5 +85,19 @@ public class LikedGamesActivity extends AppCompatActivity {
         Intent intent = new Intent(context, LikedGamesActivity.class);
         intent.putExtra(LIKED_GAMES_ACTIVITY_USER_ID, userId);
         return intent;
+    }
+
+    @Override
+    public void onCardClick(int position) {
+        int gameId = gameModels.get(position).getId();
+        Intent intent = GameDetailsActivity.gameDetailsIntentFactory(getApplicationContext(), gameId, userId);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onButtonClick(int position) {
+        int gameId = gameModels.get(position).getId();
+        repository.updateGameLike(0, userId, gameId);
+        Toast.makeText(LikedGamesActivity.this, "Moved to Dislikes", Toast.LENGTH_SHORT).show();
     }
 }

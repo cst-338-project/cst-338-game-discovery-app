@@ -27,8 +27,6 @@ public interface SwipeDAO {
     @Query("SELECT gameId FROM " + LootCrateDatabase.SWIPE_TABLE + " WHERE userId == :userId AND isLiked == 0")
     LiveData<List<Integer>> getAllDislikedGameIdsForUser(int userId);
 
-
-
     @Query("SELECT g.title AS title, s.gameId AS gameId, " +
             "SUM(CASE WHEN s.isLiked = 1 THEN 1 ELSE 0 END) AS likeCount, " +
             "SUM(CASE WHEN s.isLiked = 0 THEN 1 ELSE 0 END) AS dislikeCount " +
@@ -37,5 +35,6 @@ public interface SwipeDAO {
             "GROUP BY s.gameId")
     LiveData<List<GameAnalytics>> getGameAnalyticsWithTitle();
 
-
+    @Query("UPDATE " + LootCrateDatabase.SWIPE_TABLE + " SET isLiked = :swipeType WHERE userId = :userId AND gameId = :gameId")
+    int updateGameLike(int swipeType, int userId, int gameId);
 }
