@@ -49,8 +49,7 @@ public class DislikedGamesActivity extends AppCompatActivity {
         binding.dislikedGamesBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = ProfilePageActivity.profileIntentFactory(getApplicationContext(), userId);
-                startActivity(intent);
+                finish();
             }
         });
 

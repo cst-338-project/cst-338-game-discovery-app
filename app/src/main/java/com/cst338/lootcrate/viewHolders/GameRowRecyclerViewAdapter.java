@@ -16,11 +16,13 @@ import com.cst338.lootcrate.R;
 import java.util.ArrayList;
 
 public class GameRowRecyclerViewAdapter extends RecyclerView.Adapter<GameRowRecyclerViewAdapter.MyViewHolder> {
+    private final GameRowRecyclerViewInterface gameRowRecyclerViewInterface;
     Context context;
     ArrayList<GameRowModel> gameModels;
-    public GameRowRecyclerViewAdapter(Context context, ArrayList<GameRowModel> gameModels) {
+    public GameRowRecyclerViewAdapter(Context context, ArrayList<GameRowModel> gameModels, GameRowRecyclerViewInterface gameRowRecyclerViewInterface) {
         this.context = context;
         this.gameModels = gameModels;
+        this.gameRowRecyclerViewInterface = gameRowRecyclerViewInterface;
     }
 
     @NonNull
@@ -28,7 +30,7 @@ public class GameRowRecyclerViewAdapter extends RecyclerView.Adapter<GameRowRecy
     public GameRowRecyclerViewAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.game_row, parent, false);
-        return new GameRowRecyclerViewAdapter.MyViewHolder(view);
+        return new GameRowRecyclerViewAdapter.MyViewHolder(view, gameRowRecyclerViewInterface);
     }
 
     @Override
@@ -54,14 +56,26 @@ public class GameRowRecyclerViewAdapter extends RecyclerView.Adapter<GameRowRecy
         TextView gameTitle;
         TextView rowText;
 
-
-        public MyViewHolder(@NonNull View itemView) {
+        public MyViewHolder(@NonNull View itemView, GameRowRecyclerViewInterface gameRowRecyclerViewInterface) {
             super(itemView);
 
             rowText = itemView.findViewById(R.id.rowText);
             rowButton = itemView.findViewById(R.id.rowButton);
             gameTitle = itemView.findViewById(R.id.gameTitleText);
             gameImage = itemView.findViewById(R.id.gameBackgroundImage);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (gameRowRecyclerViewInterface != null) {
+                        int pos = getAdapterPosition();
+
+                        if (pos != RecyclerView.NO_POSITION) {
+                            gameRowRecyclerViewInterface.onCardClick(pos);
+                        }
+                    }
+                }
+            });
         }
     }
 }

@@ -16,11 +16,12 @@ import com.cst338.lootcrate.database.entities.Game;
 import com.cst338.lootcrate.databinding.ActivityLikedGamesBinding;
 import com.cst338.lootcrate.viewHolders.GameRowModel;
 import com.cst338.lootcrate.viewHolders.GameRowRecyclerViewAdapter;
+import com.cst338.lootcrate.viewHolders.GameRowRecyclerViewInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LikedGamesActivity extends AppCompatActivity {
+public class LikedGamesActivity extends AppCompatActivity implements GameRowRecyclerViewInterface {
     ActivityLikedGamesBinding binding;
     GameRowRecyclerViewAdapter adapter;
     private static final String LIKED_GAMES_ACTIVITY_USER_ID = "com.cst338.lootcrate.LIKED_GAMES_ACTIVITY_USER_ID";
@@ -84,5 +85,10 @@ public class LikedGamesActivity extends AppCompatActivity {
         Intent intent = new Intent(context, LikedGamesActivity.class);
         intent.putExtra(LIKED_GAMES_ACTIVITY_USER_ID, userId);
         return intent;
+    }
+
+    @Override
+    public void onCardClick(int position) {
+
     }
 }
