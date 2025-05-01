@@ -17,11 +17,12 @@ import com.cst338.lootcrate.databinding.ActivityDislikedGamesBinding;
 import com.cst338.lootcrate.databinding.ActivityLikedGamesBinding;
 import com.cst338.lootcrate.viewHolders.GameRowModel;
 import com.cst338.lootcrate.viewHolders.GameRowRecyclerViewAdapter;
+import com.cst338.lootcrate.viewHolders.GameRowRecyclerViewInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DislikedGamesActivity extends AppCompatActivity {
+public class DislikedGamesActivity extends AppCompatActivity implements GameRowRecyclerViewInterface {
     ActivityDislikedGamesBinding binding;
     GameRowRecyclerViewAdapter adapter;
     private static final String DISLIKED_GAMES_ACTIVITY_USER_ID = "com.cst338.lootcrate.DISLIKED_GAMES_ACTIVITY_USER_ID";
@@ -42,7 +43,7 @@ public class DislikedGamesActivity extends AppCompatActivity {
 
         // Recycler View
         RecyclerView recyclerView = binding.dislikedGamesRecyclerView;
-        adapter = new GameRowRecyclerViewAdapter(this, gameModels);
+        adapter = new GameRowRecyclerViewAdapter(this, gameModels, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -69,6 +70,7 @@ public class DislikedGamesActivity extends AppCompatActivity {
         likedGamesObserver.observe(this, dislikedGames -> {
             for (Game game : dislikedGames) {
                 GameRowModel rowModel = new GameRowModel(
+                        game.getId(),
                         game.getTitle(),
                         game.getImageUrl(),
                         "Add to Likes",
@@ -85,5 +87,12 @@ public class DislikedGamesActivity extends AppCompatActivity {
         Intent intent = new Intent(context, DislikedGamesActivity.class);
         intent.putExtra(DISLIKED_GAMES_ACTIVITY_USER_ID, userId);
         return intent;
+    }
+
+    @Override
+    public void onCardClick(int position) {
+        int gameId = gameModels.get(position).getId();
+        Intent intent = GameDetailsActivity.gameDetailsIntentFactory(getApplicationContext(), gameId, userId);
+        startActivity(intent);
     }
 }

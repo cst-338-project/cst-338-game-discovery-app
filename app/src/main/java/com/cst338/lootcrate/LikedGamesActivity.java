@@ -42,7 +42,7 @@ public class LikedGamesActivity extends AppCompatActivity implements GameRowRecy
 
         // Recycler View
         RecyclerView recyclerView = binding.likedGamesRecyclerView;
-        adapter = new GameRowRecyclerViewAdapter(this, gameModels);
+        adapter = new GameRowRecyclerViewAdapter(this, gameModels, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -69,6 +69,7 @@ public class LikedGamesActivity extends AppCompatActivity implements GameRowRecy
         likedGamesObserver.observe(this, likedGames -> {
             for (Game game : likedGames) {
                 GameRowModel rowModel = new GameRowModel(
+                        game.getId(),
                         game.getTitle(),
                         game.getImageUrl(),
                         "Move to Dislikes",
@@ -89,6 +90,8 @@ public class LikedGamesActivity extends AppCompatActivity implements GameRowRecy
 
     @Override
     public void onCardClick(int position) {
-
+        int gameId = gameModels.get(position).getId();
+        Intent intent = GameDetailsActivity.gameDetailsIntentFactory(getApplicationContext(), gameId, userId);
+        startActivity(intent);
     }
 }
