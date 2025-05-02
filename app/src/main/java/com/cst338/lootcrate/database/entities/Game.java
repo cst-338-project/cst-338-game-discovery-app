@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey;
 
 import com.cst338.lootcrate.database.LootCrateDatabase;
 
+import java.util.List;
 import java.util.Objects;
 
 
@@ -20,6 +21,7 @@ public class Game {
     private String released;
     private String website;
     private int metacritic;
+    private List<String> screenshots;
 
     public Game(int id, String website, String released, String imageUrl, String genre, String description, String title, int metacritic) {
         this.id = id;
@@ -88,5 +90,13 @@ public class Game {
 
     public String getWebsite() {
         return website;
+    }
+
+    public List<String> getScreenshots() {
+        return screenshots;
+    }
+
+    public void setScreenshots(List<String> screenshots) {
+        this.screenshots = screenshots;
     }
 }

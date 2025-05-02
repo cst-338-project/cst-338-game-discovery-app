@@ -24,6 +24,7 @@ import com.cst338.lootcrate.databinding.ActivityLandingPageBinding;
 import com.cst338.lootcrate.retroFit.APIClient;
 import com.cst338.lootcrate.retroFit.APIGame;
 import com.cst338.lootcrate.retroFit.GameDetails;
+import com.cst338.lootcrate.retroFit.GameScreenshots;
 import com.cst338.lootcrate.retroFit.GamesResponse;
 import com.cst338.lootcrate.retroFit.RAWGApiService;
 
@@ -123,7 +124,7 @@ public class LandingPageActivity extends AppCompatActivity {
                                     details.getMetacritic()
                             );
 
-                            Log.d("LOOTCRATE", currentGame.toString());
+                            fetchGameScreenshots(currentGame);
 
                             repository.insertGame(currentGame);
                             gameList.add(currentGame);
@@ -134,12 +135,30 @@ public class LandingPageActivity extends AppCompatActivity {
                 }
             }
 
-
             @Override
             public void onFailure(Call<GameDetails> call, Throwable throwable) {
                 Log.e("LOOTCRATE", "Game details fetch error: " + throwable.getMessage());
             }
         });
+    }
+
+    private void fetchGameScreenshots(Game game) {
+        Call<GameScreenshots> call = apiService.getGameScreenshots(game.getId(), RAWG_API_KEY);
+        call.enqueue(new Callback<GameScreenshots>() {
+            @Override
+            public void onResponse(Call<GameScreenshots> call, Response<GameScreenshots> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<String> screenshots = response.body().getScreenshots();
+                    game.setScreenshots(screenshots);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GameScreenshots> call, Throwable throwable) {
+                Log.e("LOOTCRATE", "Game screenshots fetch error: " + throwable.getMessage());
+            }
+        });
+
     }
 
     private void loadSavedGames() {
