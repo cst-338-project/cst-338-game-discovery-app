@@ -83,6 +83,8 @@
 
     <Button
         android:layout_width="200dp"
+        android:backgroundTint="#CFBC81"
+        android:textColor="@color/black"
         android:layout_height="50dp"
         android:id="@+id/loginButton"
         android:text="@string/login"
@@ -91,7 +93,10 @@
         android:gravity="center"
         android:textSize="20sp"
         android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:strokeColor="@color/black"
+        app:strokeWidth="3dp"
+        />
 
 
 
