@@ -82,6 +82,9 @@ public class LandingPageActivity extends AppCompatActivity {
                     List<APIGame> games = response.body().getResults();
                     for (APIGame game : games) {
                         int id = game.getId();
+
+                        Log.e("FETCH GAME LIST", "id: " + id + " page: " + page);
+
                         if (!containsGame(id)) {
                             fetchGameDetails(id);
                         }
