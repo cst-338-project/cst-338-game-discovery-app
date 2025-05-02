@@ -5,7 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LikedGamesActivity">
+    tools:context=".LikedGamesActivity"
+    android:background="@drawable/backgroud2">
 
     <ImageButton
         android:id="@+id/likedGamesBackButton"
