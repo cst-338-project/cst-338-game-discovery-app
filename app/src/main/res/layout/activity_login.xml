@@ -21,8 +21,8 @@
 
     <ImageView
         android:id="@+id/lootCrateThumbnailImageView"
-        android:layout_width="221dp"
-        android:layout_height="230dp"
+        android:layout_width="match_parent"
+        android:layout_height="270dp"
         android:contentDescription="@string/loot_crate_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,7 +52,7 @@
         android:inputType="text"
         app:layout_constraintBaseline_toBaselineOf="@+id/usernameTextView"
         app:layout_constraintStart_toEndOf="@id/usernameTextView"
-        app:layout_constraintTop_toBottomOf="@id/lootCrateThumbnailImageView"/>
+        app:layout_constraintTop_toBottomOf="@id/lootCrateThumbnailImageView" />
 
     <TextView
         android:id="@+id/passwordTextView"
@@ -74,20 +74,19 @@
         android:inputType="textPassword"
         app:layout_constraintBaseline_toBaselineOf="@+id/passwordTextView"
         app:layout_constraintStart_toEndOf="@id/passwordTextView"
-        app:layout_constraintTop_toBottomOf="@id/usernameEditText"/>
+        app:layout_constraintTop_toBottomOf="@id/usernameEditText" />
 
     <Button
+        android:id="@+id/loginButton"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:id="@+id/loginButton"
-        android:text="@string/login"
-        app:layout_constraintTop_toBottomOf="@id/passwordEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        android:gravity="center"
-        android:textSize="20sp"
         android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
+        android:gravity="center"
+        android:text="@string/login"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/passwordEditText" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

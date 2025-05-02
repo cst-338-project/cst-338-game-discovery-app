@@ -35,8 +35,12 @@ public class LoginActivity extends AppCompatActivity {
 
         repository = LootCrateRepository.getRepository(getApplication());
         ImageView logoImage = (ImageView) findViewById(R.id.lootCrateThumbnailImageView);
+
         logoImage.setBackgroundResource(R.drawable.logo_animation);
         logoAnimation = (AnimationDrawable) logoImage.getBackground();
+        logoImage.setBackgroundResource(0);
+        logoImage.setImageResource(R.drawable.loot_crate_logo);
+
 
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +63,10 @@ public class LoginActivity extends AppCompatActivity {
             if (user != null) {
                 String password = binding.passwordEditText.getText().toString();
                 if (password.equals(user.getPassword())) {
+                    ImageView logoImage = (ImageView) findViewById(R.id.lootCrateThumbnailImageView);
+                    logoImage.setImageResource(0);
+                    logoImage.setBackgroundResource(R.drawable.logo_animation);
+                    logoAnimation = (AnimationDrawable) logoImage.getBackground();
                     logoAnimation.start();
                     final Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -68,8 +76,6 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(LandingPageActivity.landingIntentFactory(getApplicationContext(), user.getId()));
                         }
                     }, 700);
-//                    startActivity(LandingPageActivity.landingIntentFactory(getApplicationContext(), user.getId()));
-//                    startActivity(GameDetailsActivity.gameDetailsIntentFactory(getApplicationContext()));
                 } else {
                     toastMaker("Invalid password");
                     binding.passwordEditText.setSelection(0);
