@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                             // Do something after 5s = 5000ms
                             startActivity(LandingPageActivity.landingIntentFactory(getApplicationContext(), user.getId()));
                         }
-                    }, 500);
+                    }, 700);
 //                    startActivity(LandingPageActivity.landingIntentFactory(getApplicationContext(), user.getId()));
 //                    startActivity(GameDetailsActivity.gameDetailsIntentFactory(getApplicationContext()));
                 } else {
