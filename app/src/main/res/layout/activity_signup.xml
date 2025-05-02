@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/backgroud2">
 
 
     <TextView
@@ -15,6 +16,7 @@
         android:paddingTop="10dp"
         android:paddingEnd="25dp"
         android:text="@string/welcome_to_loot_crate_sign_up_page_please_enter_your_details"
+        android:textColor="@color/black"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.461"
@@ -55,6 +57,7 @@
         android:paddingTop="10dp"
         android:paddingEnd="25dp"
         android:text="@string/password"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/usernameTextView" />
@@ -69,6 +72,7 @@
         android:paddingTop="10dp"
         android:paddingEnd="25dp"
         android:text="@string/confirm_password"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordTextView" />
@@ -93,6 +97,7 @@
         android:paddingTop="10dp"
         android:paddingEnd="25dp"
         android:text="@string/username"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -103,13 +108,17 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginTop="40dp"
+        android:backgroundTint="#CFBC81"
         android:gravity="center"
         android:text="Complete Sign Up"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/confirmPasswordEditText" />
+        app:layout_constraintTop_toBottomOf="@id/confirmPasswordEditText"
+        app:strokeColor="@color/black"
+        app:strokeWidth="3dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
