@@ -21,7 +21,7 @@ public class Game {
     private String released;
     private String website;
     private int metacritic;
-    private List<String> screenshots;
+//    private List<String> screenshots;
 
     public Game(int id, String website, String released, String imageUrl, String genre, String description, String title, int metacritic) {
         this.id = id;
@@ -92,11 +92,11 @@ public class Game {
         return website;
     }
 
-    public List<String> getScreenshots() {
-        return screenshots;
-    }
-
-    public void setScreenshots(List<String> screenshots) {
-        this.screenshots = screenshots;
-    }
+//    public List<String> getScreenshots() {
+//        return screenshots;
+//    }
+//
+//    public void setScreenshots(List<String> screenshots) {
+//        this.screenshots = screenshots;
+//    }
 }
