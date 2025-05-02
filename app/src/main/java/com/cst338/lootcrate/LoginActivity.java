@@ -2,8 +2,11 @@ package com.cst338.lootcrate;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
@@ -22,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     String username = "";
     String password = "";
     int loggedInUserId = -1;
+    AnimationDrawable logoAnimation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,14 +34,13 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         repository = LootCrateRepository.getRepository(getApplication());
+        ImageView logoImage = (ImageView) findViewById(R.id.lootCrateThumbnailImageView);
+        logoImage.setBackgroundResource(R.drawable.logo_animation);
+        logoAnimation = (AnimationDrawable) logoImage.getBackground();
 
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                getInformationFromDisplay();
-//                insertUser();
-//                Intent intent = mainActivityIntentFactory(getApplicationContext(), 0);
-//                startActivity(intent);
                 verifyUser();
             }
         });
@@ -56,7 +59,16 @@ public class LoginActivity extends AppCompatActivity {
             if (user != null) {
                 String password = binding.passwordEditText.getText().toString();
                 if (password.equals(user.getPassword())) {
-                    startActivity(LandingPageActivity.landingIntentFactory(getApplicationContext(), user.getId()));
+                    logoAnimation.start();
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            // Do something after 5s = 5000ms
+                            startActivity(LandingPageActivity.landingIntentFactory(getApplicationContext(), user.getId()));
+                        }
+                    }, 700);
+//                    startActivity(LandingPageActivity.landingIntentFactory(getApplicationContext(), user.getId()));
 //                    startActivity(GameDetailsActivity.gameDetailsIntentFactory(getApplicationContext()));
                 } else {
                     toastMaker("Invalid password");
