@@ -32,13 +32,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         repository = LootCrateRepository.getRepository(getApplication());
-        ImageView logoImage = (ImageView) findViewById(R.id.lootCrateThumbnailImageView);
 
-        logoImage.setBackgroundResource(R.drawable.logo_animation);
-        logoAnimation = (AnimationDrawable) logoImage.getBackground();
-        logoImage.setBackgroundResource(0);
+        ImageView logoImage = (ImageView) findViewById(R.id.lootCrateThumbnailImageView);
         logoImage.setImageResource(R.drawable.loot_crate_logo);
 
 
@@ -63,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
             if (user != null) {
                 String password = binding.passwordEditText.getText().toString();
                 if (password.equals(user.getPassword())) {
+                    // change image source to animation and start
                     ImageView logoImage = (ImageView) findViewById(R.id.lootCrateThumbnailImageView);
                     logoImage.setImageResource(0);
                     logoImage.setBackgroundResource(R.drawable.logo_animation);
@@ -87,26 +84,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Should be moved to sign up instead.
-     *
-    private void insertUser() {
-        if (username.isEmpty() || password.isEmpty()){
-            Toast.makeText(getApplicationContext(), "Please enter a username and password.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        User user = new User(password, username);
-        repository.insertUser(user);
-    }
-     */
 
-    /**
-     * Deprecated
-    private void getInformationFromDisplay() {
-        username = binding.usernameEditText.getText().toString();
-        password = binding.passwordEditText.getText().toString();
-    }
-     */
 
     static Intent loginIntentFactory(Context context){
         return new Intent(context, LoginActivity.class);
