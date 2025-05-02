@@ -54,7 +54,6 @@ public class ProfilePageActivity extends AppCompatActivity {
 
         likedGames();
         dislikedGames();
-        viewAnalytics();
 
         binding.backButton.setOnClickListener(new View.OnClickListener() {
             @Override

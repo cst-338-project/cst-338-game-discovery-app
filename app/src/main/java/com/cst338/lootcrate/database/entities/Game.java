@@ -1,6 +1,7 @@
 package com.cst338.lootcrate.database.entities;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -21,9 +22,16 @@ public class Game {
     private String released;
     private String website;
     private int metacritic;
-//    private List<String> screenshots;
+    @ColumnInfo(defaultValue = "NULL")
+    private String screenshot1;
+    @ColumnInfo(defaultValue = "NULL")
+    private String screenshot2;
+    @ColumnInfo(defaultValue = "NULL")
+    private String screenshot3;
 
-    public Game(int id, String website, String released, String imageUrl, String genre, String description, String title, int metacritic) {
+
+    public Game(int id, String website, String released, String imageUrl,
+                String genre, String description, String title, int metacritic) {
         this.id = id;
         this.website = website;
         this.released = released;
@@ -49,6 +57,7 @@ public class Game {
                 ", imageURL='" + imageUrl + '\'' +
                 ", website=" + website + '\'' +
                 ", metacritic=" + metacritic + '\'' +
+                ", screenshots = " + screenshot1 + " " + screenshot2 + " " + screenshot3 + '\'' +
                 '}';
     }
 
@@ -56,12 +65,12 @@ public class Game {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Game game = (Game) o;
-        return id == game.id && metacritic == game.metacritic && Objects.equals(title, game.title) && Objects.equals(description, game.description) && Objects.equals(genre, game.genre) && Objects.equals(imageUrl, game.imageUrl) && Objects.equals(released, game.released) && Objects.equals(website, game.website);
+        return id == game.id && metacritic == game.metacritic && Objects.equals(title, game.title) && Objects.equals(description, game.description) && Objects.equals(genre, game.genre) && Objects.equals(imageUrl, game.imageUrl) && Objects.equals(released, game.released) && Objects.equals(website, game.website) && Objects.equals(screenshot1, game.screenshot1) && Objects.equals(screenshot2, game.screenshot2) && Objects.equals(screenshot3, game.screenshot3);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, genre, imageUrl, released, website, metacritic);
+        return Objects.hash(id, title, description, genre, imageUrl, released, website, metacritic, screenshot1, screenshot2, screenshot3);
     }
 
     public int getMetacritic() {
@@ -92,11 +101,33 @@ public class Game {
         return website;
     }
 
-//    public List<String> getScreenshots() {
-//        return screenshots;
-//    }
-//
-//    public void setScreenshots(List<String> screenshots) {
-//        this.screenshots = screenshots;
-//    }
+    public String getScreenshot1() {
+        return screenshot1;
+    }
+
+    public String getScreenshot2() {
+        return screenshot2;
+    }
+
+    public String getScreenshot3() {
+        return screenshot3;
+    }
+
+    public void setScreenshots(String s1, String s2, String s3) {
+        this.screenshot1 = s1;
+        this.screenshot2 = s2;
+        this.screenshot3 = s3;
+    }
+
+    public void setScreenshot1(String screenshot1) {
+        this.screenshot1 = screenshot1;
+    }
+
+    public void setScreenshot2(String screenshot2) {
+        this.screenshot2 = screenshot2;
+    }
+
+    public void setScreenshot3(String screenshot3) {
+        this.screenshot3 = screenshot3;
+    }
 }

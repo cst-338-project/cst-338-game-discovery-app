@@ -65,7 +65,6 @@ public class LandingPageActivity extends AppCompatActivity {
 
 
         loginUser(savedInstanceState);
-        profileButton();
         likeButton();
         dislikeButton();
         gameDetailsPage();
@@ -153,7 +152,12 @@ public class LandingPageActivity extends AppCompatActivity {
             public void onResponse(Call<GameScreenshots> call, Response<GameScreenshots> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     List<String> screenshots = response.body().getScreenshots();
-//                    game.setScreenshots(screenshots);
+                    String screenshot1 = screenshots.get(0);
+                    String screenshot2 = screenshots.get(1);
+                    String screenshot3 = screenshots.get(2);
+                    game.setScreenshots(screenshot1, screenshot2, screenshot3);
+
+                    Log.d("FETCHING GAME SCREENSHOTS", game.toString());
                 }
             }
 
