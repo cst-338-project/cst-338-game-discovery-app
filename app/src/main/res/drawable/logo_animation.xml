@@ -1,9 +1,9 @@
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:oneshot="true">
     <item android:drawable="@drawable/loot_crate_logo" android:duration="100" />
-    <item android:drawable="@drawable/logo_animation2" android:duration="100" />
-    <item android:drawable="@drawable/logo_animation3" android:duration="100" />
-    <item android:drawable="@drawable/logo_animation4" android:duration="100" />
-    <item android:drawable="@drawable/logo_animation5" android:duration="100" />
-    <item android:drawable="@drawable/logo_animation6" android:duration="100" />
+    <item android:drawable="@drawable/logo_animation2" android:duration="250" />
+    <item android:drawable="@drawable/logo_animation3" android:duration="250" />
+    <item android:drawable="@drawable/logo_animation4" android:duration="250" />
+    <item android:drawable="@drawable/logo_animation5" android:duration="250" />
+    <item android:drawable="@drawable/logo_animation6" android:duration="250" />
 </animation-list>

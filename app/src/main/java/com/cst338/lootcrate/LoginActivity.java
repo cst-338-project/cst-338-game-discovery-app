@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
                             // Do something after 5s = 5000ms
                             startActivity(LandingPageActivity.landingIntentFactory(getApplicationContext(), user.getId()));
                         }
-                    }, 700);
+                    }, 1200);
                 } else {
                     toastMaker("Invalid password");
                     binding.passwordEditText.setSelection(0);
