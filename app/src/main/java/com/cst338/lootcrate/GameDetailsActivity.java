@@ -3,6 +3,7 @@ package com.cst338.lootcrate;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +31,8 @@ public class GameDetailsActivity extends AppCompatActivity {
         repository = LootCrateRepository.getRepository(this.getApplication());
         gameId = getIntent().getIntExtra("GameId", gameId);
         game = repository.getGameById(gameId);
+
+        Log.d("GAME SCREENSHOTS", game.getScreenshot1() + game.getScreenshot2() + game.getScreenshot3());
 
        setInfo();
        //TODO: Use userId for back button
