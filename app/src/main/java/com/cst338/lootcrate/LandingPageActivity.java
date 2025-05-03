@@ -116,23 +116,7 @@ public class LandingPageActivity extends AppCompatActivity {
                     LootCrateDatabase.getDatabaseWriteExecutor().execute(() -> {
                         Swipe swipe = repository.getLikeDislikeForUserAndGame(user.getId(), details.getId()); //Check if game has been swiped on before adding
                         if (swipe == null) {
-                            Game currentGame = new Game(
-                                    details.getId(),
-                                    details.getWebsite(),
-                                    details.getReleased(),
-                                    details.getBackgroundImage(),
-                                    details.getGenre(),
-                                    details.getDescription(),
-                                    details.getName(),
-                                    details.getMetacritic()
-                            );
-
-                            fetchGameScreenshots(currentGame);
-
-                            repository.insertGame(currentGame);
-                            gameList.add(currentGame);
-
-                            runOnUiThread(() -> {displayNextGame();});
+                            fetchGameScreenshots(details);
                         }
                     });
                 }
@@ -145,8 +129,8 @@ public class LandingPageActivity extends AppCompatActivity {
         });
     }
 
-    private void fetchGameScreenshots(Game game) {
-        Call<GameScreenshots> call = apiService.getGameScreenshots(game.getId(), RAWG_API_KEY);
+    private void fetchGameScreenshots(GameDetails gameDetails) {
+        Call<GameScreenshots> call = apiService.getGameScreenshots(gameDetails.getId(), RAWG_API_KEY);
         call.enqueue(new Callback<GameScreenshots>() {
             @Override
             public void onResponse(Call<GameScreenshots> call, Response<GameScreenshots> response) {
@@ -155,9 +139,25 @@ public class LandingPageActivity extends AppCompatActivity {
                     String screenshot1 = screenshots.get(0);
                     String screenshot2 = screenshots.get(1);
                     String screenshot3 = screenshots.get(2);
-                    game.setScreenshots(screenshot1, screenshot2, screenshot3);
 
-                    Log.d("FETCHING GAME SCREENSHOTS", game.toString());
+                    Game currentGame = new Game(
+                            gameDetails.getId(),
+                            gameDetails.getWebsite(),
+                            gameDetails.getReleased(),
+                            gameDetails.getBackgroundImage(),
+                            gameDetails.getGenre(),
+                            gameDetails.getDescription(),
+                            gameDetails.getName(),
+                            gameDetails.getMetacritic(),
+                            screenshot1,
+                            screenshot2,
+                            screenshot3
+                    );
+
+                    // insert game after grabbing screenshots
+                    repository.insertGame(currentGame);
+                    gameList.add(currentGame);
+                    runOnUiThread(() -> {displayNextGame();});
                 }
             }
 

@@ -31,7 +31,8 @@ public class Game {
 
 
     public Game(int id, String website, String released, String imageUrl,
-                String genre, String description, String title, int metacritic) {
+                String genre, String description, String title, int metacritic,
+                String screenshot1, String screenshot2, String screenshot3) {
         this.id = id;
         this.website = website;
         this.released = released;
@@ -40,6 +41,9 @@ public class Game {
         this.description = description;
         this.title = title;
         this.metacritic = metacritic;
+        this.screenshot1 = screenshot1;
+        this.screenshot2 = screenshot2;
+        this.screenshot3 = screenshot3;
     }
 
     public String getImageUrl() {
@@ -113,21 +117,4 @@ public class Game {
         return screenshot3;
     }
 
-    public void setScreenshots(String s1, String s2, String s3) {
-        this.screenshot1 = s1;
-        this.screenshot2 = s2;
-        this.screenshot3 = s3;
-    }
-
-    public void setScreenshot1(String screenshot1) {
-        this.screenshot1 = screenshot1;
-    }
-
-    public void setScreenshot2(String screenshot2) {
-        this.screenshot2 = screenshot2;
-    }
-
-    public void setScreenshot3(String screenshot3) {
-        this.screenshot3 = screenshot3;
-    }
 }
