@@ -7,10 +7,9 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.cst338.lootcrate.database.entities.User;
-
-import java.util.ArrayList;
 
 @Dao
 public interface UserDAO {
@@ -27,8 +26,6 @@ public interface UserDAO {
     LiveData<User> getUserByUserId(int userId);
 
 
-
-
-
-
+    @Update
+    void updateUser(User user);
 }

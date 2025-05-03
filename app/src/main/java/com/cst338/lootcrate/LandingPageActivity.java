@@ -47,7 +47,7 @@ public class LandingPageActivity extends AppCompatActivity {
     private User user;
     private LinkedList<Game> gameList = new LinkedList<>();
     private int currIndex = 1;
-    private int page = 1;
+    private int page;
 
 
     @Override
@@ -237,6 +237,11 @@ public class LandingPageActivity extends AppCompatActivity {
 
     private void loadGames() {
         page++;
+        LootCrateDatabase.getDatabaseWriteExecutor().execute(() -> {
+            user.setPageNum(page);
+            repository.updateUser(user);
+        });
+
         fetchGamesList();
     }
 
@@ -263,6 +268,7 @@ public class LandingPageActivity extends AppCompatActivity {
             this.user = user;
             if (user != null) {
                 profileButton();
+                page = user.getPageNum();
                 loadSavedGames();//load games from db before adding more from api
             }
         });
