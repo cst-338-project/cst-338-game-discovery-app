@@ -37,7 +37,7 @@ import retrofit2.Response;
 public class LandingPageActivity extends AppCompatActivity {
     private static final String RAWG_API_KEY = BuildConfig.RAWG_API_KEY;
     RAWGApiService apiService = null;
-    private static final String LANDING_PAGE_ACTIVITY_USER_ID = "com.cst338.lootcrate.LANDING_PAGE_ACTIVITY_USER_ID";
+    public static final String LANDING_PAGE_ACTIVITY_USER_ID = "com.cst338.lootcrate.LANDING_PAGE_ACTIVITY_USER_ID";
     private static final String SAVED_INSTANCE_STATE_USERID_KEY = "com.cst338.lootcrate.SAVED_INSTANCE_STATE_USERID_KEY";
     private ActivityLandingPageBinding binding;
     private LootCrateRepository repository;
