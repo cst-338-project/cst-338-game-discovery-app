@@ -26,7 +26,7 @@ import java.util.List;
 public class DislikedGamesActivity extends AppCompatActivity implements GameRowRecyclerViewInterface {
     ActivityDislikedGamesBinding binding;
     GameRowRecyclerViewAdapter adapter;
-    private static final String DISLIKED_GAMES_ACTIVITY_USER_ID = "com.cst338.lootcrate.DISLIKED_GAMES_ACTIVITY_USER_ID";
+    public static final String DISLIKED_GAMES_ACTIVITY_USER_ID = "com.cst338.lootcrate.DISLIKED_GAMES_ACTIVITY_USER_ID";
     private LootCrateRepository repository;
     ArrayList<GameRowModel> gameModels = new ArrayList<>();
     private int userId;
