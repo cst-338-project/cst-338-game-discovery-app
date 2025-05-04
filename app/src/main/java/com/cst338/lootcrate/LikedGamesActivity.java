@@ -26,7 +26,7 @@ import java.util.List;
 public class LikedGamesActivity extends AppCompatActivity implements GameRowRecyclerViewInterface {
     ActivityLikedGamesBinding binding;
     GameRowRecyclerViewAdapter adapter;
-    private static final String LIKED_GAMES_ACTIVITY_USER_ID = "com.cst338.lootcrate.LIKED_GAMES_ACTIVITY_USER_ID";
+    public static final String LIKED_GAMES_ACTIVITY_USER_ID = "com.cst338.lootcrate.LIKED_GAMES_ACTIVITY_USER_ID";
     private LootCrateRepository repository;
     ArrayList<GameRowModel> gameModels = new ArrayList<GameRowModel>();
     private int userId;
