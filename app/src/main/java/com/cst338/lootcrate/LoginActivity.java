@@ -32,11 +32,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         repository = LootCrateRepository.getRepository(getApplication());
-
         ImageView logoImage = (ImageView) findViewById(R.id.lootCrateThumbnailImageView);
-        logoImage.setImageResource(R.drawable.loot_crate_logo);
-
+        logoImage.setBackgroundResource(R.drawable.logo_animation);
+        logoAnimation = (AnimationDrawable) logoImage.getBackground();
 
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,11 +59,6 @@ public class LoginActivity extends AppCompatActivity {
             if (user != null) {
                 String password = binding.passwordEditText.getText().toString();
                 if (password.equals(user.getPassword())) {
-                    // change image source to animation and start
-                    ImageView logoImage = (ImageView) findViewById(R.id.lootCrateThumbnailImageView);
-                    logoImage.setImageResource(0);
-                    logoImage.setBackgroundResource(R.drawable.logo_animation);
-                    logoAnimation = (AnimationDrawable) logoImage.getBackground();
                     logoAnimation.start();
                     final Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -72,7 +67,8 @@ public class LoginActivity extends AppCompatActivity {
                             // Do something after 5s = 5000ms
                             startActivity(LandingPageActivity.landingIntentFactory(getApplicationContext(), user.getId()));
                         }
-                    }, 1200);
+                    }, 1500);
+
                 } else {
                     toastMaker("Invalid password");
                     binding.passwordEditText.setSelection(0);
@@ -83,7 +79,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
     static Intent loginIntentFactory(Context context){

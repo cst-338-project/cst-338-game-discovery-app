@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/backgroud2"
     tools:context=".GameDetailsActivity">
 
     <TextView
@@ -13,19 +14,28 @@
         android:layout_height="85dp"
         android:gravity="center"
         android:text="Game Title Goes Here"
+        android:textColor="@color/black"
         android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/gameDetailsCoverImageView"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/gameDetailsViewPager"
         android:layout_width="406dp"
         android:layout_height="300dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gameDetailsTitleTextView"
-        app:srcCompat="@android:drawable/ic_menu_gallery" />
+        app:layout_constraintTop_toBottomOf="@id/gameDetailsTitleTextView" />
+
+<!--    <ImageView-->
+<!--        android:id="@+id/gameDetailsCoverImageView"-->
+<!--        android:layout_width="406dp"-->
+<!--        android:layout_height="300dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/gameDetailsTitleTextView"-->
+<!--        app:srcCompat="@android:drawable/ic_menu_gallery" />-->
 
     <TextView
         android:id="@+id/gameDetailsGenreTextView"
@@ -33,10 +43,11 @@
         android:layout_height="55dp"
         android:gravity="center"
         android:text="Fantasy RPG"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@+id/gameDetailsMetacriticScoreTextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gameDetailsCoverImageView" />
+        app:layout_constraintTop_toBottomOf="@+id/gameDetailsViewPager" />
 
     <TextView
         android:id="@+id/gameDetailsMetacriticScoreTextView"
@@ -44,19 +55,20 @@
         android:layout_height="58dp"
         android:gravity="center"
         android:text="$59.99"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gameDetailsCoverImageView" />
+        app:layout_constraintTop_toBottomOf="@+id/gameDetailsViewPager" />
 
     <ScrollView
         android:id="@+id/gameDetailsDescriptionScrollView"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        app:layout_constraintBottom_toTopOf="@id/gameDetailsBackButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gameDetailsGenreTextView"
-        app:layout_constraintBottom_toTopOf="@id/gameDetailsBackButton">
+        app:layout_constraintTop_toBottomOf="@+id/gameDetailsGenreTextView">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -69,6 +81,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="10sp"
                 android:text="Game Description goes here"
+                android:textColor="@color/black"
                 android:textSize="20sp" />
 
 
@@ -79,7 +92,9 @@
         android:id="@+id/gameDetailsLinksTextView"
         android:layout_width="263dp"
         android:layout_height="53dp"
+        android:autoLink="web"
         android:text="Space for links?"
+        android:textColor="@color/black"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/gameDetailsBackButton"
@@ -90,10 +105,14 @@
         android:id="@+id/gameDetailsBackButton"
         android:layout_width="150dp"
         android:layout_height="50dp"
+        android:backgroundTint="#CFBC81"
         android:text="Back"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gameDetailsDescriptionScrollView" />
+        app:layout_constraintTop_toBottomOf="@id/gameDetailsDescriptionScrollView"
+        app:strokeColor="@color/black"
+        app:strokeWidth="3dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

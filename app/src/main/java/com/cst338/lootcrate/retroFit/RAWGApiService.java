@@ -18,4 +18,10 @@ public interface RAWGApiService {
             @Path("id") int gameId,
             @Query("key") String apiKey
     );
+
+    @GET("games/{id}/screenshots")
+    Call<GameScreenshots> getGameScreenshots(
+        @Path("id") int gameId,
+        @Query("key") String apiKey
+    );
 }

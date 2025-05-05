@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_analytics"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="12dp">
+    android:padding="12dp"
+    android:background="@drawable/backgroud2">
 
     <Button
         android:id="@+id/analyticsBackButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Back" />
+        android:text="Back"
+        android:backgroundTint="#CFBC81"
+        android:textColor="@color/black"
+        app:strokeColor="@color/black"
+        app:strokeWidth="3dp"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/analyticsRecyclerView"

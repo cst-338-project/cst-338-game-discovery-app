@@ -24,6 +24,7 @@ import com.cst338.lootcrate.databinding.ActivityLandingPageBinding;
 import com.cst338.lootcrate.retroFit.APIClient;
 import com.cst338.lootcrate.retroFit.APIGame;
 import com.cst338.lootcrate.retroFit.GameDetails;
+import com.cst338.lootcrate.retroFit.GameScreenshots;
 import com.cst338.lootcrate.retroFit.GamesResponse;
 import com.cst338.lootcrate.retroFit.RAWGApiService;
 
@@ -37,7 +38,7 @@ import retrofit2.Response;
 public class LandingPageActivity extends AppCompatActivity {
     private static final String RAWG_API_KEY = BuildConfig.RAWG_API_KEY;
     RAWGApiService apiService = null;
-    private static final String LANDING_PAGE_ACTIVITY_USER_ID = "com.cst338.lootcrate.LANDING_PAGE_ACTIVITY_USER_ID";
+    public static final String LANDING_PAGE_ACTIVITY_USER_ID = "com.cst338.lootcrate.LANDING_PAGE_ACTIVITY_USER_ID";
     private static final String SAVED_INSTANCE_STATE_USERID_KEY = "com.cst338.lootcrate.SAVED_INSTANCE_STATE_USERID_KEY";
     private ActivityLandingPageBinding binding;
     private LootCrateRepository repository;
@@ -46,7 +47,7 @@ public class LandingPageActivity extends AppCompatActivity {
     private User user;
     private LinkedList<Game> gameList = new LinkedList<>();
     private int currIndex = 1;
-    private int page = 1;
+    private int page;
 
 
     @Override
@@ -81,6 +82,9 @@ public class LandingPageActivity extends AppCompatActivity {
                     List<APIGame> games = response.body().getResults();
                     for (APIGame game : games) {
                         int id = game.getId();
+
+                        Log.e("FETCH GAME LIST", "id: " + id + " page: " + page);
+
                         if (!containsGame(id)) {
                             fetchGameDetails(id);
                         }
@@ -112,34 +116,57 @@ public class LandingPageActivity extends AppCompatActivity {
                     LootCrateDatabase.getDatabaseWriteExecutor().execute(() -> {
                         Swipe swipe = repository.getLikeDislikeForUserAndGame(user.getId(), details.getId()); //Check if game has been swiped on before adding
                         if (swipe == null) {
-                            Game currentGame = new Game(
-                                    details.getId(),
-                                    details.getWebsite(),
-                                    details.getReleased(),
-                                    details.getBackgroundImage(),
-                                    details.getGenre(),
-                                    details.getDescription(),
-                                    details.getName(),
-                                    details.getMetacritic()
-                            );
-
-                            Log.d("LOOTCRATE", currentGame.toString());
-
-                            repository.insertGame(currentGame);
-                            gameList.add(currentGame);
-
-                            runOnUiThread(() -> {displayNextGame();});
+                            fetchGameScreenshots(details);
                         }
                     });
                 }
             }
-
 
             @Override
             public void onFailure(Call<GameDetails> call, Throwable throwable) {
                 Log.e("LOOTCRATE", "Game details fetch error: " + throwable.getMessage());
             }
         });
+    }
+
+    private void fetchGameScreenshots(GameDetails gameDetails) {
+        Call<GameScreenshots> call = apiService.getGameScreenshots(gameDetails.getId(), RAWG_API_KEY);
+        call.enqueue(new Callback<GameScreenshots>() {
+            @Override
+            public void onResponse(Call<GameScreenshots> call, Response<GameScreenshots> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    List<String> screenshots = response.body().getScreenshots();
+                    String screenshot1 = screenshots.get(0);
+                    String screenshot2 = screenshots.get(1);
+                    String screenshot3 = screenshots.get(2);
+
+                    Game currentGame = new Game(
+                            gameDetails.getId(),
+                            gameDetails.getWebsite(),
+                            gameDetails.getReleased(),
+                            gameDetails.getBackgroundImage(),
+                            gameDetails.getGenre(),
+                            gameDetails.getDescription(),
+                            gameDetails.getName(),
+                            gameDetails.getMetacritic(),
+                            screenshot1,
+                            screenshot2,
+                            screenshot3
+                    );
+
+                    // insert game after grabbing screenshots
+                    repository.insertGame(currentGame);
+                    gameList.add(currentGame);
+                    runOnUiThread(() -> {displayNextGame();});
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GameScreenshots> call, Throwable throwable) {
+                Log.e("LOOTCRATE", "Game screenshots fetch error: " + throwable.getMessage());
+            }
+        });
+
     }
 
     private void loadSavedGames() {
@@ -210,6 +237,11 @@ public class LandingPageActivity extends AppCompatActivity {
 
     private void loadGames() {
         page++;
+        LootCrateDatabase.getDatabaseWriteExecutor().execute(() -> {
+            user.setPageNum(page);
+            repository.updateUser(user);
+        });
+
         fetchGamesList();
     }
 
@@ -236,6 +268,7 @@ public class LandingPageActivity extends AppCompatActivity {
             this.user = user;
             if (user != null) {
                 profileButton();
+                page = user.getPageNum();
                 loadSavedGames();//load games from db before adding more from api
             }
         });
