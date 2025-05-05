@@ -3,8 +3,10 @@ package com.cst338.lootcrate;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
@@ -38,6 +40,8 @@ public class GameDetailsActivity extends AppCompatActivity {
         gameId = getIntent().getIntExtra("GameId", gameId);
         game = repository.getGameById(gameId);
 
+
+
         ViewPager2 viewPager2 = findViewById(R.id.gameDetailsViewPager);
 
         List<String> imageUrls = Arrays.asList(
@@ -52,6 +56,9 @@ public class GameDetailsActivity extends AppCompatActivity {
         Log.d("GAME SCREENSHOTS", game.getScreenshot1() + game.getScreenshot2() + game.getScreenshot3());
 
        setInfo();
+        // To make the link clickable
+        TextView t2 = (TextView) findViewById(R.id.gameDetailsLinksTextView);
+        t2.setMovementMethod(LinkMovementMethod.getInstance());
        binding.gameDetailsBackButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -64,9 +71,6 @@ public class GameDetailsActivity extends AppCompatActivity {
         binding.gameDetailsTitleTextView.setText(game.getTitle());
         binding.gameDetailsGenreTextView.setText(game.getGenre());
         binding.gameDetailsDescriptionTextView.setText(game.getDescription());
-//        Glide.with(this)
-//                .load(game.getImageUrl())
-//                .into(binding.gameDetailsCoverImageView);
         binding.gameDetailsMetacriticScoreTextView.setText(String.valueOf("Metacritic: " + game.getMetacritic()));
         binding.gameDetailsLinksTextView.setText(game.getWebsite());
 

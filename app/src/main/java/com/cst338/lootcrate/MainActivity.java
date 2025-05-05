@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-//        repository = LootCrateRepository.getRepository(getApplication());
+        repository = LootCrateRepository.getRepository(getApplication());
 
         // Force query to see usertable in the App Inspector
         repository.getUserByUserName("admin2").observe(this, user -> {
