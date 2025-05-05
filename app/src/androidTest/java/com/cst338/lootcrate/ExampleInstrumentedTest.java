@@ -3,6 +3,8 @@ package com.cst338.lootcrate;
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -67,5 +69,52 @@ public class ExampleInstrumentedTest {
         onView(withId(R.id.backButton)).perform(click());
         intended(hasComponent(LandingPageActivity.class.getName()));
     }
+
+
+
+
+
+    @Test
+    public void testAdminCanAccessAnalytics() {
+
+        //Creating an intent to launch ProfilePageActivity
+        // @Author: Alberto
+        Intent intent = new Intent(getApplicationContext(), ProfilePageActivity.class);
+        intent.putExtra("com.cst338.lootcrate.PROFILE_PAGE_ACTIVITY_USER_ID", 1); // admin
+        ActivityScenario.launch(intent);
+
+        // Click on viewAnalytics button
+        onView(withId(R.id.viewAnalytics)).perform(click());
+
+        // This should case us to end up at AnalyticsActivity
+        intended(hasComponent(AnalyticsActivity.class.getName()));
+
+        // And so we can check that the activity is not null, as we should be in it
+        assertNotNull(AnalyticsActivity.class);
+    }
+
+
+
+    @Test
+    public void testSignUpPageToLoginPageOnSuccess() {
+        // Launch SignUpActivity
+        // author: Alberto
+        ActivityScenario.launch(SignUpActivity.class);
+
+        // Fill in valid info
+        onView(withId(R.id.usernameEditText)).perform(typeText("newTestUser"), closeSoftKeyboard());
+        onView(withId(R.id.passwordEditText)).perform(typeText("test1234"), closeSoftKeyboard());
+        onView(withId(R.id.confirmPasswordEditText)).perform(typeText("test1234"), closeSoftKeyboard());
+
+        // Click the Sign Up button
+        onView(withId(R.id.signUpButton)).perform(click());
+
+        // This should cause us to end up at LoginActivity
+        intended(hasComponent(LoginActivity.class.getName()));
+
+        // Check that the activity is not null
+        assertNotNull(LoginActivity.class);
+    }
+
 
 }
