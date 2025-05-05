@@ -20,14 +20,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/gameDetailsCoverImageView"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/gameDetailsViewPager"
         android:layout_width="406dp"
         android:layout_height="300dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gameDetailsTitleTextView"
-        app:srcCompat="@android:drawable/ic_menu_gallery" />
+        app:layout_constraintTop_toBottomOf="@id/gameDetailsTitleTextView" />
+
+<!--    <ImageView-->
+<!--        android:id="@+id/gameDetailsCoverImageView"-->
+<!--        android:layout_width="406dp"-->
+<!--        android:layout_height="300dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/gameDetailsTitleTextView"-->
+<!--        app:srcCompat="@android:drawable/ic_menu_gallery" />-->
 
     <TextView
         android:id="@+id/gameDetailsGenreTextView"
@@ -39,7 +47,7 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@+id/gameDetailsMetacriticScoreTextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gameDetailsCoverImageView" />
+        app:layout_constraintTop_toBottomOf="@+id/gameDetailsViewPager" />
 
     <TextView
         android:id="@+id/gameDetailsMetacriticScoreTextView"
@@ -50,7 +58,7 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gameDetailsCoverImageView" />
+        app:layout_constraintTop_toBottomOf="@+id/gameDetailsViewPager" />
 
     <ScrollView
         android:id="@+id/gameDetailsDescriptionScrollView"
@@ -84,6 +92,7 @@
         android:id="@+id/gameDetailsLinksTextView"
         android:layout_width="263dp"
         android:layout_height="53dp"
+        android:autoLink="web"
         android:text="Space for links?"
         android:textColor="@color/black"
         android:textSize="15sp"

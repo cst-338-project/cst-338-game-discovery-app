@@ -67,9 +67,8 @@ public class LoginActivity extends AppCompatActivity {
                             // Do something after 5s = 5000ms
                             startActivity(LandingPageActivity.landingIntentFactory(getApplicationContext(), user.getId()));
                         }
-                    }, 700);
-//                    startActivity(LandingPageActivity.landingIntentFactory(getApplicationContext(), user.getId()));
-//                    startActivity(GameDetailsActivity.gameDetailsIntentFactory(getApplicationContext()));
+                    }, 1500);
+
                 } else {
                     toastMaker("Invalid password");
                     binding.passwordEditText.setSelection(0);
@@ -81,26 +80,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Should be moved to sign up instead.
-     *
-    private void insertUser() {
-        if (username.isEmpty() || password.isEmpty()){
-            Toast.makeText(getApplicationContext(), "Please enter a username and password.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        User user = new User(password, username);
-        repository.insertUser(user);
-    }
-     */
-
-    /**
-     * Deprecated
-    private void getInformationFromDisplay() {
-        username = binding.usernameEditText.getText().toString();
-        password = binding.passwordEditText.getText().toString();
-    }
-     */
 
     static Intent loginIntentFactory(Context context){
         return new Intent(context, LoginActivity.class);
