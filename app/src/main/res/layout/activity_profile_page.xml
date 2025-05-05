@@ -5,7 +5,9 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfilePageActivity">
+    tools:context=".ProfilePageActivity"
+    android:background="@drawable/backgroud2"
+    >
 
 
     <Button
@@ -15,7 +17,7 @@
         android:layout_margin="16dip"
         android:layout_marginTop="196dp"
         android:background="@drawable/button_border"
-        android:backgroundTint="@color/blue"
+        android:backgroundTint="#D7C68B"
         android:foreground="?attr/selectableItemBackground"
         android:gravity="center"
         android:text="Liked Games"

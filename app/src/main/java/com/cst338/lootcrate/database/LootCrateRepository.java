@@ -142,4 +142,10 @@ public class LootCrateRepository {
         );
     }
 
+    public void updateUser(User user) {
+        LootCrateDatabase.databaseWriteExecutor.execute(() ->
+                userDAO.updateUser(user)
+        );
+    }
+
 }

@@ -24,7 +24,7 @@ import com.cst338.lootcrate.databinding.ActivityProfilePageBinding;
 
 public class ProfilePageActivity extends AppCompatActivity {
 
-    private static final String PROFILE_PAGE_ACTIVITY_USER_ID = "com.cst338.lootcrate.PROFILE_PAGE_ACTIVITY_USER_ID";
+    public static final String PROFILE_PAGE_ACTIVITY_USER_ID = "com.cst338.lootcrate.PROFILE_PAGE_ACTIVITY_USER_ID";
     private static final int LOGGED_OUT = -1;
     private ActivityProfilePageBinding binding;
 
