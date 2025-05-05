@@ -92,6 +92,7 @@
         android:id="@+id/gameDetailsLinksTextView"
         android:layout_width="263dp"
         android:layout_height="53dp"
+        android:autoLink="web"
         android:text="Space for links?"
         android:textColor="@color/black"
         android:textSize="15sp"

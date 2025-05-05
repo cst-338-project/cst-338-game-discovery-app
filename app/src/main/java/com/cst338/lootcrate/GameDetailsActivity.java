@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
@@ -40,8 +39,6 @@ public class GameDetailsActivity extends AppCompatActivity {
         gameId = getIntent().getIntExtra("GameId", gameId);
         game = repository.getGameById(gameId);
 
-
-
         ViewPager2 viewPager2 = findViewById(R.id.gameDetailsViewPager);
 
         List<String> imageUrls = Arrays.asList(
@@ -56,9 +53,6 @@ public class GameDetailsActivity extends AppCompatActivity {
         Log.d("GAME SCREENSHOTS", game.getScreenshot1() + game.getScreenshot2() + game.getScreenshot3());
 
        setInfo();
-        // To make the link clickable
-        TextView t2 = (TextView) findViewById(R.id.gameDetailsLinksTextView);
-        t2.setMovementMethod(LinkMovementMethod.getInstance());
        binding.gameDetailsBackButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
