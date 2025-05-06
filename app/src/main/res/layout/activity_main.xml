@@ -18,7 +18,7 @@
         android:paddingStart="28dp"
         android:paddingTop="10dp"
         android:paddingEnd="25dp"
-        android:text="@string/loot_crate_2"
+        android:text="@string/loot_crate"
         android:textColor="#FFFFFF"
         android:textSize="45sp"
         android:shadowColor="@android:color/black"
