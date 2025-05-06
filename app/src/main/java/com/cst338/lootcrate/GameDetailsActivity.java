@@ -25,6 +25,8 @@ public class GameDetailsActivity extends AppCompatActivity {
     private ActivityGameDetailsBinding binding;
 
     private LootCrateRepository repository;
+    public static final String GAME_DETAILS_ACTIVITY_USER_ID = "com.cst338.lootcrate.GAME_DETAILS_ACTIVITY_USER_ID";
+    public static final String GAME_DETAILS_ACTIVITY_GAME_ID = "com.cst338.lootcrate.GAME_DETAILS_ACTIVITY_GAME_ID";
     private int gameId = 1;
     private int userId = 1;
     private Game game;
@@ -39,9 +41,10 @@ public class GameDetailsActivity extends AppCompatActivity {
         gameId = getIntent().getIntExtra("GameId", gameId);
         game = repository.getGameById(gameId);
 
-        ViewPager2 viewPager2 = findViewById(R.id.gameDetailsViewPager);
+        ViewPager2 viewPager2 = binding.gameDetailsViewPager;
 
         List<String> imageUrls = Arrays.asList(
+                game.getImageUrl(),
                 game.getScreenshot1(),
                 game.getScreenshot2(),
                 game.getScreenshot3()
@@ -72,6 +75,9 @@ public class GameDetailsActivity extends AppCompatActivity {
 
     static Intent gameDetailsIntentFactory(Context context, int gameId, int userId){
         Intent intent = new Intent(context, GameDetailsActivity.class);
+//        intent.putExtra(GAME_DETAILS_ACTIVITY_GAME_ID, gameId);
+//        intent.putExtra(GAME_DETAILS_ACTIVITY_USER_ID, userId);
+
         intent.putExtra("GameId", gameId);
         intent.putExtra("UserId", userId);
         return intent;
