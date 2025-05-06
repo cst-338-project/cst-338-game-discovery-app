@@ -1,7 +1,6 @@
 package com.cst338.lootcrate;
 
 import static com.cst338.lootcrate.LandingPageActivity.landingIntentFactory;
-import static com.cst338.lootcrate.LikedGamesActivity.likedGamesIntentFactory;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,16 +8,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
 import com.cst338.lootcrate.database.LootCrateRepository;
+
 import com.cst338.lootcrate.database.entities.User;
 import com.cst338.lootcrate.databinding.ActivityProfilePageBinding;
 
