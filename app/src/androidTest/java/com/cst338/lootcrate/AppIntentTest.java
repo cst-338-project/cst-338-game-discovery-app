@@ -95,9 +95,9 @@ public class AppIntentTest {
         Intent intent = GameDetailsActivity.gameDetailsIntentFactory(context, testGameID, testUserID);
 
         assertEquals(GameDetailsActivity.class.getName(), intent.getComponent().getClassName());
-        assertTrue(intent.hasExtra(GAME_DETAILS_ACTIVITY_USER_ID));
-        assertTrue(intent.hasExtra(GAME_DETAILS_ACTIVITY_GAME_ID));
-        assertEquals(3, intent.getIntExtra(GAME_DETAILS_ACTIVITY_USER_ID, -1));
-        assertEquals(4, intent.getIntExtra(GAME_DETAILS_ACTIVITY_GAME_ID, -1));
+        assertTrue(intent.hasExtra("GameId"));
+        assertTrue(intent.hasExtra("UserId"));
+        assertEquals(3, intent.getIntExtra("UserId", -1));
+        assertEquals(4, intent.getIntExtra("GameId", -1));
     }
 }

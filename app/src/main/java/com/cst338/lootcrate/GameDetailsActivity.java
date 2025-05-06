@@ -75,8 +75,11 @@ public class GameDetailsActivity extends AppCompatActivity {
 
     static Intent gameDetailsIntentFactory(Context context, int gameId, int userId){
         Intent intent = new Intent(context, GameDetailsActivity.class);
-        intent.putExtra(GAME_DETAILS_ACTIVITY_GAME_ID, gameId);
-        intent.putExtra(GAME_DETAILS_ACTIVITY_USER_ID, userId);
+//        intent.putExtra(GAME_DETAILS_ACTIVITY_GAME_ID, gameId);
+//        intent.putExtra(GAME_DETAILS_ACTIVITY_USER_ID, userId);
+
+        intent.putExtra("GameId", gameId);
+        intent.putExtra("UserId", userId);
         return intent;
     }
 }
